@@ -30,7 +30,13 @@
       </ul>
       <div class="tab-content border border-top-0" style="margin-top:0px;">
         <div class="tab-pane container active" id="sarfiyat">
-          <appKayitGrid :name="'sarfiyat'" :sarfiyat="sarfiyat" :nevler="sarfNevleri" :sarf="sarf"></appKayitGrid>
+          <appKayitGrid
+            :name="'sarfiyat'"
+            :sarfiyat="sarfiyat"
+            :nevler="sarfNevleri"
+            :sarf="sarf"
+            @KayitGridKaydiSil="GiderKaydiSil"
+          ></appKayitGrid>
         </div>
         <div class="tab-pane container fade" id="akarat">
           <appKayitGrid
@@ -38,7 +44,6 @@
             :sarfiyat="gelirler"
             :nevler="gelirNevleri"
             :sarf="gelir"
-            @KayitGridKaydiSil="GelirKaydiSil"
           ></appKayitGrid>
         </div>
         <div class="tab-pane container fade" id="varidat">...</div>
@@ -96,8 +101,9 @@ export default {
         Ensar.yilAyGunTarih(this.tarihler.sonTarih)
       );
     },
-    GelirKaydiSil: function(pIntA) {
+    GiderKaydiSil: function(pIntA) {
       this.silinecek = pIntA;
+      this.$delete(this.sarfiyat, pIntA);
     },
     GelirleriGetir: function() {
       //               http://localhost:3000/ss/slim/gelirler/2019-01-15/2019-04-14

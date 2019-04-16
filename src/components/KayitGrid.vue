@@ -26,6 +26,7 @@ export default {
   methods: {
     KaydiSil: function(pIntA) {
       this.$emit("KayitGridKaydiSil", pIntA);
+      //console.log(pIntA);
     }
   },
   created() {}
