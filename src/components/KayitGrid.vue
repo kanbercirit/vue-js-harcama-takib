@@ -1,7 +1,7 @@
 <template>
   <div>
     <appKayit :nevler="nevler" :kayd="sarf"></appKayit>
-    <appGrid :kayitlar="sarfiyat"></appGrid>
+    <appGrid @GridKaydiSil="KaydiSil" :kayitlar="sarfiyat"></appGrid>
   </div>
 </template>
 
@@ -23,7 +23,11 @@ export default {
   data: function() {
     return {};
   },
-  methods: {},
+  methods: {
+    KaydiSil: function(pIntA) {
+      this.$emit("KayitGridKaydiSil", pIntA);
+    }
+  },
   created() {}
 };
 </script>

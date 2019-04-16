@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+    Silinecek: {{silinecek}}
     <div class="row" style="margin-top:10px;">
-      <appTarihAraligi :tarihler="tarihler"></appTarihAraligi>
+      <appTarihAraligi @TarihAraligiDegisti="VerileriGetir" :tarihler="tarihler"></appTarihAraligi>
       <div class="umumi-yekun" id="left" style="display:none">
         <span id="GelirlerYekunu" name="GelirlerYekunu" class="badge badge-info"></span>
         <span class="badge badge-danger">-</span>
@@ -37,6 +38,7 @@
             :sarfiyat="gelirler"
             :nevler="gelirNevleri"
             :sarf="gelir"
+            @KayitGridKaydiSil="GelirKaydiSil"
           ></appKayitGrid>
         </div>
         <div class="tab-pane container fade" id="varidat">...</div>
@@ -53,6 +55,9 @@ import KayitGrid from "./components/KayitGrid";
 import TarihAraligi from "./components/TarihAraligi";
 import Vue from "vue";
 import axios from "axios";
+import moment from "moment";
+
+Vue.prototype.moment = moment;
 Vue.prototype.$http = axios;
 
 export default {
@@ -63,43 +68,47 @@ export default {
   },
   data: function() {
     return {
-      tarihler: { ilkTarih: null, sonTarih: null },
+      tarihler: { ilkTarih: new Date(), sonTarih: new Date() },
       sarfNevleri: Array,
       sarfiyat: [],
       gelirNevleri: Array,
       gelirler: [],
-      gelir: {
-        OKytNo: 8965550,
-        Tarih: "2019-01-02",
-        Nev: "Maaş",
-        RbtHarcamaNevleri: 5,
-        Mikdar: 1500,
-        Izah: "Yok"
-      },
-      sarf: {
-        OKytNo: 8965550,
-        Tarih: "2019-01-08",
-        Nev: "Patates",
-        RbtHarcamaNevleri: 5,
-        Mikdar: 56,
-        Izah: "Yok"
-      }
+      gelir: {},
+      sarf: {},
+      silinecek: -1
     };
   },
   methods: {
+    moment: function(date) {
+      moment.locale();
+      return moment(date);
+    },
+    date: function(date) {
+      return moment(date).format("DD.MM.YYYY");
+    },
+    dateTime: function(date) {
+      return moment(date).format("DD.MM.YYYY hh:mm:ss");
+    },
     TarihleriGetir: function() {
-      return tarih + 
+      return (
+        Ensar.yilAyGunTarih(this.tarihler.ilkTarih) +
+        "/" +
+        Ensar.yilAyGunTarih(this.tarihler.sonTarih)
+      );
+    },
+    GelirKaydiSil: function(pIntA) {
+      this.silinecek = pIntA;
     },
     GelirleriGetir: function() {
       //               http://localhost:3000/ss/slim/gelirler/2019-01-15/2019-04-14
-      const baseURI = eventBus.restApi + "/gelirler/2019-01-15/2019-04-14";
+      const baseURI = eventBus.restApi + "/gelirler/" + this.TarihleriGetir();
       this.$http.get(baseURI).then(result => {
         this.gelirler = result.data.Veriler;
       });
     },
     SarfiyatGetir: function() {
       //               http://localhost:3000/ss/slim/harcamalar/2019-01-15/2019-04-14
-      const baseURI = eventBus.restApi + "/harcamalar/2019-01-15/2019-04-14";
+      const baseURI = eventBus.restApi + "/harcamalar/" + this.TarihleriGetir();
       this.$http.get(baseURI).then(result => {
         this.sarfiyat = result.data.Veriler;
       });
@@ -124,9 +133,14 @@ export default {
     }
   },
   created() {
-    let tarih = new Date("2019-01-15");
+    let tarih = new Date("2019-02-15");
     this.tarihler = Ensar.donemGetir(tarih);
     this.VerileriGetir();
+  },
+  filters: {
+    moment: function(date) {
+      return moment(date).format("L");
+    }
   }
 };
 </script>

@@ -4,7 +4,7 @@
     <input type="date" class="form-control col-sm-2" v-model="tarihler.ilkTarih" required>
     <label class="col-form-label">Son Tarih:</label>
     <input type="date" class="form-control col-sm-2" v-model="tarihler.sonTarih" required>
-    <button class="btn btn-success" v-on:click="getir">Getir</button>
+    <button class="btn btn-success" @click="getir">Getir</button>
   </div>
 </template>
 
@@ -15,9 +15,8 @@ export default {
     tarihler: {}
   },
   methods: {
-    getir: function(event) {
-      //console.log("Getir");
-      event.targetId;
+    getir: function() {
+      this.$emit("TarihAraligiDegisti", this.tarihler);
     }
   }
 };

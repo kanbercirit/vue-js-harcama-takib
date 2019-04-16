@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody id="harcama-tablo-govde">
-        <tr v-for="kayit in kayitlar" v-bind:value="kayit.OKytNo" v-bind:key="kayit.OKytNo">
+        <tr v-for="(kayit, index) in kayitlar" :value="kayit.OKytNo" :key="index">
           <td>{{kayit.Tarih}}</td>
           <td>{{kayit.Nev}}</td>
           <td>{{kayit.Mikdar}}</td>
@@ -20,14 +20,14 @@
           <td>
             <button
               class="btn btn-info m-r-10px update-product-button btn-sm"
-              onclick="geliriDuzeltmeyeHazirla(intA)"
+              @click="DuzeltmeyeHazirla(index)"
             >
               <span class="fa fa-edit"></span>
               Düzelt
             </button>
             <button
               class="btn btn-danger delete-product-button btn-sm"
-              onclick="geliriSilmeyeHazirla(intA)"
+              @click="SilmeyeHazirla(index)"
             >
               <span class="fa fa-remove"></span> Sil
             </button>
@@ -41,11 +41,27 @@
 <script>
 export default {
   name: "Grid",
-  props: { kayitlar: null },
+  props: { kayitlar: null, kayit: null },
   data() {
     return {};
   },
   methods: {
+    DuzeltmeyeHazirla: function(pIntA) {
+      //console.log("Düzelt: " + pIntA);
+      this.kayit.index = pIntA;
+    },
+    Duzelt: function(pIntA) {
+      this.$emit("KaydiDuzelt", pIntA);
+    },
+    SilmeyeHazirla: function(pIntA) {
+      let cevab = confirm("Kaydı silmek istediğinizden Emin Misiniz?");
+      if (cevab == true) {
+        this.Sil(pIntA);
+      }
+    },
+    Sil: function(pIntA) {
+      this.$emit("GridKaydiSil", pIntA);
+    },
     ekle: function() {
       this.kayitlar.push({
         OKytNo: 8965550,

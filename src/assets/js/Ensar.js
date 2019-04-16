@@ -40,9 +40,10 @@ export class Ensar {
     );
   }
   static yilAyGunTarih(pTarih) {
-    var day = ("0" + pTarih.getDate()).slice(-2);
-    var month = ("0" + (pTarih.getMonth() + 1)).slice(-2);
-    return pTarih.getFullYear() + "-" + month + "-" + day;
+    let tarih = new Date(pTarih);
+    var day = ("0" + tarih.getDate()).slice(-2);
+    var month = ("0" + (tarih.getMonth() + 1)).slice(-2);
+    return tarih.getFullYear() + "-" + month + "-" + day;
   }
 
   static donemGetir(ilkTarih) {
