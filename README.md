@@ -1,39 +1,31 @@
-# Harcama Takib (vue.js, PHP, Slim)
+# Harcama Takib vue.js, PHP, Slim (Monitoring of Expenditures)
 
-## Veritabanı İşlemleri
+## Veritabanı İşlemleri (Database Operations)
 
 ```
-Data dizininde gerekli scriptler mevcuttur.
+Data dizininde gerekli scriptler mevcuttur. (Required scripts are available in the data directory.)
+Aşağıdaki sırayla çalıştırınız. (Run in the following order.)
+01-harcama-takib-tablolar.sql
+02-nevleri-ekle.sql
+03-harcama-gelir-ekle.sql
 ```
 
-## Project setup
+## İlk Kurulum (Project setup)
 
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Projenin Derlenmesi ve Çalıştırılması (Compiles and hot-reloads for development)
 
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Projenin Derlenerek Hostinge Hazır Hale Getirilmesi (Compiles and minifies for production)
 
 ```
 npm run build
-```
-
-### Run your tests
-
-```
-npm run test
-```
-
-### Lints and fixes files
-
-```
-npm run lint
 ```
 
 ### Customize configuration

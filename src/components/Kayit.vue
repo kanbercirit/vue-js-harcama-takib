@@ -1,11 +1,12 @@
 <template>
   <div>
     {{nevAlanIsmi}}
-    <form id="harcama-kayit-formu" @submit.prevent="harcamayiKaydet(this)">
+    <form @submit.prevent="Kaydet(this)">
       <div class="input-group mb-3">
-        <input type="hidden" name="index" v-model="kayit.indexNo">
+        <input type="hidden" v-model="kayit.indexNo">
+        <input v-model="kayit.OKytNo" type="hidden">
         <input type="date" v-model="kayit.Tarih" placeholder="Tarih" class="form-control" required>
-        <select placeholder="Harcama Nevi Giriniz" class="form-control" v-model="kayit.RbtNevler">
+        <select placeholder="Nevi Giriniz" class="form-control" v-model="kayit.RbtNevler">
           <option
             v-for="nev in nevler"
             v-bind:value="nev.OKytNo"
@@ -21,35 +22,21 @@
           min="1"
           required
         >
-        <input
-          id="HarcamaIzah"
-          v-model="kayit.Izah"
-          name="Izah"
-          type="text"
-          placeholder="İzah"
-          class="form-control"
-        >
-        <input id="HarcamaOKytNo" v-model="kayit.OKytNo" name="OKytNo" type="hidden">
+        <input v-model="kayit.Izah" type="text" placeholder="İzah" class="form-control">
         <div class="input-group-prepend">
           <button
             class="btn btn-success"
             v-if="kayitDurumu === 'Yeni Kayıt'"
-            id="btnKaydet"
-            name="btnKaydet"
             type="submit"
           >Kaydı Ekle</button>
           <button
             class="btn btn-success"
             v-if="kayitDurumu === 'Düzenleme'"
-            id="btnKaydet"
-            name="btnKaydet"
             type="submit"
           >Kaydı Güncelle</button>
           <button
             class="btn btn-danger"
-            id="btnGuncellemeyiIptalEt"
-            name="btnGuncellemeyiIptalEt"
-            @click="harcamaDuzeltmeyiIptalEt()"
+            @click="DuzeltmeyiIptalEt()"
             type="button"
             v-if="kayitDurumu === 'Düzenleme'"
           >İptal</button>
@@ -67,10 +54,10 @@ export default {
     nevAlanIsmi: null
   },
   methods: {
-    harcamaDuzeltmeyiIptalEt: function() {
+    DuzeltmeyiIptalEt: function() {
       this.$emit("KayitDegisti", {});
     },
-    harcamayiKaydet: function(pForm) {
+    Kaydet: function(pForm) {
       this.$emit("KayitDegisti", this.kayit);
       this.$emit("Kaydet", this.kayitDurumu);
       //if (this.kayitDurumu === "Yeni Kayıt") {
