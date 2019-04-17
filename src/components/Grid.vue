@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button @click="ekle">Ekle</button>
     <table class="table table-hover table-responsive table-sm">
       <thead>
         <tr>
@@ -58,21 +57,15 @@ export default {
     SilmeyeHazirla: function(pIntA) {
       let cevab = confirm("Kaydı silmek istediğinizden Emin Misiniz?");
       if (cevab == true) {
+        console.log(
+          "İndex: " + pIntA + " OKytNo: " + this.kayitlar[pIntA].OKytNo
+        );
         this.Sil(pIntA);
+        this.$emit("KayitDegisti", {});
       }
     },
     Sil: function(pIntA) {
       this.$emit("GridKaydiSil", pIntA);
-    },
-    ekle: function() {
-      this.kayitlar.push({
-        OKytNo: 8965550,
-        Tarih: "2019-01-08",
-        Nev: "Patates",
-        RbtHarcamaNevleri: 5,
-        Mikdar: 56,
-        Izah: "Yok"
-      });
     }
   }
 };

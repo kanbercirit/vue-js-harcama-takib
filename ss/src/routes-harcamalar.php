@@ -98,6 +98,24 @@ $app->delete('/harcama/{OKytNo}', function ($request, $response, $args) {
     }    
 });
 
+$app->delete('/harcama', function ($request, $response, $args) {
+    //$input = $request->getParsedBody().OKytNo;
+    $OKytNo = $request->getParsedBody()["OKytNo"];
+    $netice = NeticeOlustur(BlokDisi, Hata, []);
+    try {        
+        $silinenKayitAdedi = $this->db->query(
+            "Delete From Harcamalar
+             Where OKytNo = :OKytNo",
+            array("OKytNo" => $OKytNo));
+        $netice = NeticeOlustur(Tamam, Veriler, ["OKytNo" => $OKytNo,
+        "SilinenKayitAdedi"=>$silinenKayitAdedi]);        
+    } catch (Exception $e) {
+        $netice = NeticeOlustur(Hata, Hata, $e->getMessage());
+    } finally {
+        return $this->response->withJson($netice);
+    }    
+});
+
 $app->get('/harcamanevleri', function ($request, $response, $args) {
     $harcamanevleri = $this->db->query("SELECT * FROM HarcamaNevleri");
     return $this->response->withJson([$harcamanevleri]);

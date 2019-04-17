@@ -22,6 +22,14 @@ npm install
 npm run serve
 ```
 
+### Rest API Projesinin Çalıştırılması
+
+```
+/ss/slim dizinine gidip, aşağıdaki komutu çalıştırınız:
+
+sh a-php-server.sh
+```
+
 ### Projenin Derlenerek Hostinge Hazır Hale Getirilmesi (Compiles and minifies for production)
 
 ```

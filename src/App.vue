@@ -128,7 +128,13 @@ export default {
       this.sarf = pKayit;
     },
     HarcamaKaydiSil: function(pIntA) {
-      this.$delete(this.sarfiyat, pIntA);
+      const baseURI = eventBus.restApi + "/harcama"; // + this.sarfiyat[pIntA].OKytNo;
+      this.$http
+        .delete(baseURI, { data: { OKytNo: this.sarfiyat[pIntA].OKytNo } })
+        .then(result => {
+          //this.sarfiyat = result.data.Veriler;
+          this.$delete(this.sarfiyat, pIntA);
+        });
     },
 
     GeliriKaydet: function(pKayitDurumu) {

@@ -1,1 +1,2 @@
-Select * From HarcamaNevleri;
+Select * From HarcamaNevleri
+Order By KaydTarihi DESC, OKytNo DESC;
