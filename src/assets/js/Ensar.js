@@ -3,6 +3,15 @@ export class Ensar {
   constructor() {
     return this;
   }
+  static clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+      if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
+  }
+
   static anahtarliDiziyeElemaniEkle(pAnaDizi, pEklenecek, pPoz) {
     //0 Elemanın silinmeyeceğini ifade eder.
     pAnaDizi.splice(pPoz, 0, pEklenecek);

@@ -39,16 +39,18 @@
 </template>
 
 <script>
+import { Ensar } from "../assets/js/Ensar.js";
 export default {
   name: "Grid",
-  props: { kayitlar: null, kayit: null },
+  props: { kayitlar: null },
   data() {
     return {};
   },
   methods: {
     DuzeltmeyeHazirla: function(pIntA) {
-      //console.log("Düzelt: " + pIntA);
-      this.kayit.index = pIntA;
+      var kilon = Ensar.clone(this.kayitlar[pIntA]);
+      kilon.indexNo = pIntA;
+      this.$emit("KayitDegisti", kilon);
     },
     Duzelt: function(pIntA) {
       this.$emit("KaydiDuzelt", pIntA);

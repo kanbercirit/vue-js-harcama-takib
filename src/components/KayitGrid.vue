@@ -1,7 +1,18 @@
 <template>
   <div>
-    <appKayit :nevler="nevler" :kayd="sarf"></appKayit>
-    <appGrid @GridKaydiSil="KaydiSil" :kayitlar="sarfiyat"></appGrid>
+    <appKayit
+      :nevler="nevler"
+      :kayit="kayit"
+      :nevAlanIsmi="nevAlanIsmi"
+      @KayitDegisti="KayitDegisti"
+      @Kaydet="Kaydet"
+    ></appKayit>
+    <appGrid
+      @GridKaydiSil="KaydiSil"
+      @KayitDegisti="KayitDegisti"
+      :kayit="kayit"
+      :kayitlar="kayitlar"
+    ></appGrid>
   </div>
 </template>
 
@@ -17,16 +28,22 @@ export default {
   props: {
     name: String,
     nevler: null,
-    sarfiyat: null,
-    sarf: {}
+    kayitlar: null,
+    kayit: null,
+    nevAlanIsmi: null
   },
   data: function() {
     return {};
   },
   methods: {
+    KayitDegisti: function(pKayit) {
+      this.$emit("KayitGridKayitDegisti", pKayit);
+    },
     KaydiSil: function(pIntA) {
       this.$emit("KayitGridKaydiSil", pIntA);
-      //console.log(pIntA);
+    },
+    Kaydet: function(pKayitDurumu) {
+      this.$emit("Kaydet", pKayitDurumu);
     }
   },
   created() {}

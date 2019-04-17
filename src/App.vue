@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    Silinecek: {{silinecek}}
     <div class="row" style="margin-top:10px;">
       <appTarihAraligi @TarihAraligiDegisti="VerileriGetir" :tarihler="tarihler"></appTarihAraligi>
       <div class="umumi-yekun" id="left" style="display:none">
@@ -32,18 +31,25 @@
         <div class="tab-pane container active" id="sarfiyat">
           <appKayitGrid
             :name="'sarfiyat'"
-            :sarfiyat="sarfiyat"
+            :kayitlar="sarfiyat"
             :nevler="sarfNevleri"
-            :sarf="sarf"
+            :kayit="sarf"
+            :nevAlanIsmi="'kayit.RbtHarcamaNevleri'"
             @KayitGridKaydiSil="GiderKaydiSil"
+            @KayitGridKayitDegisti="GiderKaydiDegisti"
+            @Kaydet="GideriKaydet"
           ></appKayitGrid>
         </div>
         <div class="tab-pane container fade" id="akarat">
           <appKayitGrid
             :name="'gelirler'"
-            :sarfiyat="gelirler"
+            :kayitlar="gelirler"
             :nevler="gelirNevleri"
-            :sarf="gelir"
+            :kayit="gelir"
+            :nevAlanIsmi="'kayit.RbtGelirNevleri'"
+            @KayitGridKaydiSil="GelirKaydiSil"
+            @KayitGridKayitDegisti="GelirKaydiDegisti"
+            @Kaydet="GeliriKaydet"
           ></appKayitGrid>
         </div>
         <div class="tab-pane container fade" id="varidat">...</div>
@@ -79,11 +85,11 @@ export default {
       gelirNevleri: Array,
       gelirler: [],
       gelir: {},
-      sarf: {},
-      silinecek: -1
+      sarf: {}
     };
   },
   methods: {
+    /*
     moment: function(date) {
       moment.locale();
       return moment(date);
@@ -93,7 +99,7 @@ export default {
     },
     dateTime: function(date) {
       return moment(date).format("DD.MM.YYYY hh:mm:ss");
-    },
+    },*/
     TarihleriGetir: function() {
       return (
         Ensar.yilAyGunTarih(this.tarihler.ilkTarih) +
@@ -101,9 +107,25 @@ export default {
         Ensar.yilAyGunTarih(this.tarihler.sonTarih)
       );
     },
+    GideriKaydet: function(pKayitDurumu) {
+      console.log(pKayitDurumu);
+      console.log(JSON.stringify(this.sarf));
+    },
+    GiderKaydiDegisti: function(pKayit) {
+      this.sarf = pKayit;
+    },
     GiderKaydiSil: function(pIntA) {
-      this.silinecek = pIntA;
       this.$delete(this.sarfiyat, pIntA);
+    },
+    GeliriKaydet: function(pKayitDurumu) {
+      console.log(pKayitDurumu);
+      console.log(JSON.stringify(this.gelir));
+    },
+    GelirKaydiDegisti: function(pKayit) {
+      this.gelir = pKayit;
+    },
+    GelirKaydiSil: function(pIntA) {
+      this.$delete(this.gelirler, pIntA);
     },
     GelirleriGetir: function() {
       //               http://localhost:3000/ss/slim/gelirler/2019-01-15/2019-04-14

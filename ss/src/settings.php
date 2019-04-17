@@ -12,7 +12,7 @@ return [
         "db" => [
             'driver' => 'mysql',
             'host' => 'localhost',
-            'database' => 'asg_hss',
+            'database' => 'harcama_takib',
             'username' => 'root',
             'password' => '123',
             'charset' => 'utf8',
