@@ -30,14 +30,14 @@
       <div class="tab-content border border-top-0" style="margin-top:0px;">
         <div class="tab-pane container active" id="sarfiyat">
           <appKayitGrid
-            :name="'sarfiyat'"
+            :name="'harcamalar'"
             :kayitlar="sarfiyat"
             :nevler="sarfNevleri"
             :kayit="sarf"
             :nevAlanIsmi="'kayit.RbtHarcamaNevleri'"
-            @KayitGridKaydiSil="GiderKaydiSil"
-            @KayitGridKayitDegisti="GiderKaydiDegisti"
-            @Kaydet="GideriKaydet"
+            @KayitGridKaydiSil="HarcamaKaydiSil"
+            @KayitGridKayitDegisti="HarcamaKaydiDegisti"
+            @Kaydet="HarcamayiKaydet"
           ></appKayitGrid>
         </div>
         <div class="tab-pane container fade" id="akarat">
@@ -107,14 +107,14 @@ export default {
         Ensar.yilAyGunTarih(this.tarihler.sonTarih)
       );
     },
-    GideriKaydet: function(pKayitDurumu) {
+    HarcamayiKaydet: function(pKayitDurumu) {
       console.log(pKayitDurumu);
       console.log(JSON.stringify(this.sarf));
     },
-    GiderKaydiDegisti: function(pKayit) {
+    HarcamaKaydiDegisti: function(pKayit) {
       this.sarf = pKayit;
     },
-    GiderKaydiSil: function(pIntA) {
+    HarcamaKaydiSil: function(pIntA) {
       this.$delete(this.sarfiyat, pIntA);
     },
     GeliriKaydet: function(pKayitDurumu) {
