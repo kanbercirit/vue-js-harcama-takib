@@ -1,29 +1,41 @@
-# vue-3.5.5-proje
+# Harcama Takib (vue.js, PHP, Slim)
+
+## Veritabanı İşlemleri
+
+```
+Data dizininde gerekli scriptler mevcuttur.
+```
 
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 npm run build
 ```
 
 ### Run your tests
+
 ```
 npm run test
 ```
 
 ### Lints and fixes files
+
 ```
 npm run lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
