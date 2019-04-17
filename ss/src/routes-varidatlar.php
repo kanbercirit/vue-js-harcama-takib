@@ -1,23 +1,23 @@
 <?php
-$app->get('/varidatNeviGetir', function ($request, $response, $args) {
-    $netice = [NevGetir('VaridatNevleri', 1, $this)];
+$app->get('/mevcudatNeviGetir', function ($request, $response, $args) {
+    $netice = [NevGetir('MevcudatNevleri', 1, $this)];
     return $this->response->withJson($netice);
 });
 
-function varidatGetir($pOKytNo)
+function mevcudatGetir($pOKytNo)
 {
-    return tablodanKayitlariGetir($app, ' Varidatlar ', '*', 'OKytNo = '. $pOKytNo);
+    return tablodanKayitlariGetir($app, ' Mevcudat ', '*', 'OKytNo = '. $pOKytNo);
 }
 
-$app->get('/varidatlarYekunu/{ilkTarih}/{sonTarih}', function ($request, $response, $args) {
+$app->get('/mevcudatYekunu/{ilkTarih}/{sonTarih}', function ($request, $response, $args) {
     $netice = NeticeOlustur(BlokDisi, Hata, []);
     try {
-        $varidatlar = $this->db->query(
+        $Mevcudat = $this->db->query(
             "SELECT IFNULL(Sum(Mikdar), 0) As Yekun
-            FROM Varidatlar
+            FROM Mevcudat
             Where Tarih Between :ilkTarih And :sonTarih",
             array("ilkTarih" => $args['ilkTarih'], "sonTarih" => $args['sonTarih']));
-        $netice = NeticeOlustur(Tamam, Veriler, $varidatlar);        
+        $netice = NeticeOlustur(Tamam, Veriler, $Mevcudat);        
     } catch (Exception $e) {
         $netice = NeticeOlustur(Hata, Hata, $e->getMessage());
     } finally {
@@ -25,18 +25,18 @@ $app->get('/varidatlarYekunu/{ilkTarih}/{sonTarih}', function ($request, $respon
     }
 });
 
-$app->get('/varidatlar/{ilkTarih}/{sonTarih}', function ($request, $response, $args) {
+$app->get('/mevcudat/{ilkTarih}/{sonTarih}', function ($request, $response, $args) {
     //return $response->write("Hello " . $args['ilkTarih']. ' ' . $args['sonTarih']);
     $netice = NeticeOlustur(BlokDisi, Hata, []);
     try {
-        $varidatlar = $this->db->query(
-            "SELECT OKytNo, KaydTarihi, modification_time, Tarih, (Select NevIsmi From VaridatNevleri Where OKytNo = RbtVaridatNevleri) As Nev, RbtVaridatNevleri, Mikdar, Izah,
-             (Select SiraNo From VaridatNevleri Where OKytNo = RbtVaridatNevleri) As SiraNo
-            FROM Varidatlar
+        $Mevcudat = $this->db->query(
+            "SELECT OKytNo, KaydTarihi, modification_time, Tarih, (Select NevIsmi From MevcudatNevleri Where OKytNo = RbtNevler) As Nev, RbtNevler, Mikdar, Izah,
+             (Select SiraNo From MevcudatNevleri Where OKytNo = RbtNevler) As SiraNo
+            FROM Mevcudat
             Where Tarih Between :ilkTarih And :sonTarih
             Order By SiraNo",
             array("ilkTarih" => $args['ilkTarih'], "sonTarih" => $args['sonTarih']));
-        $netice = NeticeOlustur(Tamam, Veriler, $varidatlar);        
+        $netice = NeticeOlustur(Tamam, Veriler, $Mevcudat);        
     } catch (Exception $e) {
         $netice = NeticeOlustur(Hata, Hata, $e->getMessage());
     } finally {
@@ -44,18 +44,18 @@ $app->get('/varidatlar/{ilkTarih}/{sonTarih}', function ($request, $response, $a
     }
 });
 
-$app->put('/varidat', function ($request, $response, $args) {
+$app->put('/mevcudat', function ($request, $response, $args) {
     $input = $request->getParsedBody();
     $netice = NeticeOlustur(BlokDisi, Hata, []);
     try {
         $eklenenKayitAdedi = $this->db->query(
-            "Update Varidatlar 
-             Set Tarih = :Tarih, RbtVaridatNevleri = :RbtVaridatNevleri, 
+            "Update Mevcudat 
+             Set Tarih = :Tarih, RbtNevler = :RbtNevler, 
              Mikdar = :Mikdar, Izah = :Izah
              Where OKytNo = :OKytNo",
-            array("Tarih" => $input['Tarih'], "RbtVaridatNevleri" => $input['RbtVaridatNevleri'],
+            array("Tarih" => $input['Tarih'], "RbtNevler" => $input['RbtNevler'],
                 "Mikdar" => $input['Mikdar'], "Izah" => $input['Izah'], "OKytNo" => $input['OKytNo']));        
-        $input['Nev'] = NevGetir(' VaridatNevleri ', $input['RbtVaridatNevleri'], $this);        
+        $input['Nev'] = NevGetir(' MevcudatNevleri ', $input['RbtNevler'], $this);        
         $netice = NeticeOlustur(Tamam, Veriler, $input);
     } catch (Exception $e) {
         $netice = NeticeOlustur(Hata, Hata, $e->getMessage());
@@ -64,16 +64,16 @@ $app->put('/varidat', function ($request, $response, $args) {
     }
 });
 
-$app->post('/varidat', function ($request, $response, $args) {
+$app->post('/mevcudat', function ($request, $response, $args) {
     $input = $request->getParsedBody();
     $netice = NeticeOlustur(BlokDisi, Hata, []);
     try {
-        $eklenenKayitAdedi = $this->db->query("Insert Into Varidatlar (Tarih, RbtVaridatNevleri, Mikdar, Izah) VALUES(:Tarih,:RbtVaridatNevleri, :Mikdar, :Izah)",
-            array("Tarih" => $input['Tarih'], "RbtVaridatNevleri" => $input['RbtVaridatNevleri'],
+        $eklenenKayitAdedi = $this->db->query("Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)",
+            array("Tarih" => $input['Tarih'], "RbtNevler" => $input['RbtNevler'],
                 "Mikdar" => $input['Mikdar'], "Izah" => $input['Izah']));
         //Bak bunu hemen al. Başka bir işlem yaptıktan sonra alıyorsun, sonra 0 geliyor.
         $input['OKytNo'] = $this->db->sonEklenenKayitNoGetir();
-        $input['Nev'] = NevGetir(' VaridatNevleri ', $input['RbtVaridatNevleri'], $this);        
+        $input['Nev'] = NevGetir(' MevcudatNevleri ', $input['RbtNevler'], $this);        
         $netice = NeticeOlustur(Tamam, Veriler, $input);
     } catch (Exception $e) {
         $netice = NeticeOlustur(Hata, Hata, $e->getMessage());
@@ -82,12 +82,12 @@ $app->post('/varidat', function ($request, $response, $args) {
     }
 });
 
-$app->delete('/varidat/{OKytNo}', function ($request, $response, $args) {
+$app->delete('/mevcudat/{OKytNo}', function ($request, $response, $args) {
     $OKytNo = $args['OKytNo'];
     $netice = NeticeOlustur(BlokDisi, Hata, []);
     try {        
         $silinenKayitAdedi = $this->db->query(
-            "Delete From Varidatlar
+            "Delete From Mevcudat
              Where OKytNo = :OKytNo",
             array("OKytNo" => $OKytNo));
         $netice = NeticeOlustur(Tamam, Veriler, ["OKytNo" => $OKytNo,
@@ -99,7 +99,7 @@ $app->delete('/varidat/{OKytNo}', function ($request, $response, $args) {
     }    
 });
 
-$app->get('/varidatnevleri', function ($request, $response, $args) {
-    $varidatnevleri = $this->db->query("SELECT * FROM VaridatNevleri Order By OKytNo");
-    return $this->response->withJson([$varidatnevleri]);
+$app->get('/mevcudatnevleri', function ($request, $response, $args) {
+    $mevcudatnevleri = $this->db->query("SELECT * FROM MevcudatNevleri Order By OKytNo");
+    return $this->response->withJson([$mevcudatnevleri]);
 });

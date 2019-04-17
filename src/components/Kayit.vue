@@ -5,7 +5,7 @@
       <div class="input-group mb-3">
         <input type="hidden" name="index" v-model="kayit.indexNo">
         <input type="date" v-model="kayit.Tarih" placeholder="Tarih" class="form-control" required>
-        <select placeholder="Harcama Nevi Giriniz" class="form-control" :value="{nevAlanIsmi}">
+        <select placeholder="Harcama Nevi Giriniz" class="form-control" v-model="kayit.RbtNevler">
           <option
             v-for="nev in nevler"
             v-bind:value="nev.OKytNo"

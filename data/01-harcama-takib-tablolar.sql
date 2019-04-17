@@ -1,10 +1,12 @@
 /*create database harcama_takib  DEFAULT CHARACTER SET 'utf8'  DEFAULT COLLATE 'utf8_turkish_ci';*/
 
+/*Drop Database harcama_takib;*/
 
 use harcama_takib;
 
 /*Drop Table IF EXISTS HarcamaNevleri;*/
 
+/*
 CREATE TABLE IF NOT EXISTS Kullanicilar(
 	OKytNo			Int		Not Null AUTO_INCREMENT,
     KaydTarihi     		DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -15,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Kullanicilar(
 	ksifre 				VarChar(180) NOT NULL,
 		CONSTRAINT PK__Kullanicilar__OKytNo PRIMARY KEY(OKytNo)
 );
-
+*/
 CREATE TABLE IF NOT EXISTS HarcamaNevleri(
 	OKytNo			Int		Not Null AUTO_INCREMENT,
     KaydTarihi     		DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -28,7 +30,7 @@ CREATE TABLE IF NOT EXISTS HarcamaNevleri(
 	Kullaniliyor 		BOOLEAN NOT NULL DEFAULT FALSE,
 	AltKategoriVarMi 	BOOLEAN NOT NULL DEFAULT FALSE,	
 	CONSTRAINT PK__HarcamaNevleri__OKytNo PRIMARY KEY(OKytNo),
-	CONSTRAINT HarcamaNevlerim_UN UNIQUE KEY (NevIsmi)
+	CONSTRAINT HarcamaNevleri_UN UNIQUE KEY (NevIsmi)
 );
 
 /*Drop Table Harcamalar;*/
@@ -37,11 +39,11 @@ CREATE TABLE IF NOT EXISTS Harcamalar(
     KaydTarihi     		DATETIME 		DEFAULT CURRENT_TIMESTAMP,
     modification_time 	DATETIME 		ON UPDATE CURRENT_TIMESTAMP,	
 	Tarih 				Date 			NOT NULL,
-	RbtHarcamaNevleri	Int				Not Null,
+	RbtNevler			Int				Not Null,
 	Mikdar				Decimal(10,2)	Not Null,
 	Izah				VarChar(100)	Null,	
 	CONSTRAINT PK__Harcamalar__OKytNo PRIMARY KEY(OKytNo),
-	CONSTRAINT FK__Harcamalar__RbtHarcamaNevleri FOREIGN KEY (RbtHarcamaNevleri) REFERENCES HarcamaNevleri(OKytNo)	
+	CONSTRAINT FK__Harcamalar__RbtNevler FOREIGN KEY (RbtNevler) REFERENCES HarcamaNevleri(OKytNo)	
 );
 
 CREATE TABLE IF NOT EXISTS GelirNevleri(
@@ -56,7 +58,7 @@ CREATE TABLE IF NOT EXISTS GelirNevleri(
 	Kullaniliyor 		BOOLEAN NOT NULL DEFAULT FALSE,
 	AltKategoriVarMi 	BOOLEAN NOT NULL DEFAULT FALSE,	
 	CONSTRAINT PK__GelirNevleri__OKytNo PRIMARY KEY(OKytNo),
-	CONSTRAINT GelirNevlerim_UN UNIQUE KEY (NevIsmi)
+	CONSTRAINT GelirNevleri_UN UNIQUE KEY (NevIsmi)
 );
 
 CREATE TABLE IF NOT EXISTS Gelirler(
@@ -64,14 +66,14 @@ CREATE TABLE IF NOT EXISTS Gelirler(
     KaydTarihi     		DATETIME 		DEFAULT CURRENT_TIMESTAMP,
     modification_time 	DATETIME 		ON UPDATE CURRENT_TIMESTAMP,	
 	Tarih 				Date 			NOT NULL,
-	RbtGelirNevleri	Int				Not Null,
+	RbtNevler			Int				Not Null,
 	Mikdar				Decimal(10,2)	Not Null,
 	Izah				VarChar(100)	Null,	
 	CONSTRAINT PK__Gelirler__OKytNo PRIMARY KEY(OKytNo),
-	CONSTRAINT FK__Gelirler__RbtGelirNevleri FOREIGN KEY (RbtGelirNevleri) REFERENCES GelirNevleri(OKytNo)	
+	CONSTRAINT FK__Gelirler__RbtNevler FOREIGN KEY (RbtNevler) REFERENCES GelirNevleri(OKytNo)	
 );
 
-CREATE TABLE IF NOT EXISTS VaridatNevleri(
+CREATE TABLE IF NOT EXISTS MevcudatNevleri(
 	OKytNo			Int		Not Null AUTO_INCREMENT,
     KaydTarihi     		DATETIME DEFAULT CURRENT_TIMESTAMP,
     modification_time 	DATETIME ON UPDATE CURRENT_TIMESTAMP,	
@@ -82,18 +84,18 @@ CREATE TABLE IF NOT EXISTS VaridatNevleri(
 	SiraNo 				int NULL,
 	Kullaniliyor 		BOOLEAN NOT NULL DEFAULT FALSE,
 	AltKategoriVarMi 	BOOLEAN NOT NULL DEFAULT FALSE,	
-	CONSTRAINT PK__VaridatNevleri__OKytNo PRIMARY KEY(OKytNo),
-	CONSTRAINT VaridatNevlerim_UN UNIQUE KEY (NevIsmi)
+	CONSTRAINT PK__MevcudatNevleri__OKytNo PRIMARY KEY(OKytNo),
+	CONSTRAINT MevcudatNevleri_UN UNIQUE KEY (NevIsmi)
 );
 
-CREATE TABLE IF NOT EXISTS Varidatlar(
+CREATE TABLE IF NOT EXISTS Mevcudat(
 	OKytNo				Int				Not Null AUTO_INCREMENT,
     KaydTarihi     		DATETIME 		DEFAULT CURRENT_TIMESTAMP,
     modification_time 	DATETIME 		ON UPDATE CURRENT_TIMESTAMP,	
 	Tarih 				Date 			NOT NULL,
-	RbtVaridatNevleri	Int				Not Null,
+	RbtNevler			Int				Not Null,
 	Mikdar				Decimal(10,2)	Not Null,
 	Izah				VarChar(100)	Null,	
-	CONSTRAINT PK__Varidatlar__OKytNo PRIMARY KEY(OKytNo),
-	CONSTRAINT FK__Varidatlar__RbtVaridatNevleri FOREIGN KEY (RbtVaridatNevleri) REFERENCES VaridatNevleri(OKytNo)	
+	CONSTRAINT PK__Mevcudat__OKytNo PRIMARY KEY(OKytNo),
+	CONSTRAINT FK__Mevcudat__RbtNevler FOREIGN KEY (RbtNevler) REFERENCES MevcudatNevleri(OKytNo)	
 );

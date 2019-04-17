@@ -1,0 +1,20 @@
+Time : 14:08:40
+Init: SQLSTATE[42S22]: Column not found: 1247 Reference 'RbtGelirNevleri' not supported (forward reference in item list)
+Raw SQL : SELECT OKytNo, KaydTarihi, modification_time, Tarih, (Select NevIsmi From GelirNevleri Where OKytNo = RbtGelirNevleri) As Nev, RbtGelirNevleri, Mikdar, Izah
+                                     FROM Gelirler
+                                     Where Tarih Between :ilkTarih And :sonTarih
+                                     Order By Tarih Desc, OKytNo Desc
+
+Time : 14:06:23
+Init: SQLSTATE[42S22]: Column not found: 1247 Reference 'RbtGelirNevleri' not supported (forward reference in item list)
+Raw SQL : SELECT OKytNo, KaydTarihi, modification_time, Tarih, (Select NevIsmi From GelirNevleri Where OKytNo = RbtGelirNevleri) As Nev, RbtGelirNevleri, Mikdar, Izah
+                                     FROM Gelirler
+                                     Where Tarih Between :ilkTarih And :sonTarih
+                                     Order By Tarih Desc, OKytNo Desc
+
+Time : 14:06:23
+Init: SQLSTATE[42S22]: Column not found: 1247 Reference 'RbtHarcamaNevleri' not supported (forward reference in item list)
+Raw SQL : SELECT OKytNo, KaydTarihi, modification_time, Tarih, (Select NevIsmi From HarcamaNevleri Where OKytNo = RbtHarcamaNevleri) As Nev, RbtHarcamaNevleri, Mikdar, Izah
+            FROM Harcamalar
+            Where Tarih Between :ilkTarih And :sonTarih
+            Order By Tarih Desc, OKytNo Desc

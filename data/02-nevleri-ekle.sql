@@ -5,7 +5,7 @@ Insert Into GelirNevleri (NevIsmi,AnaOKytNo) VALUES
 	('Ek Ödeme', 0);
 
 /* Varidat Nevleri*/
-Insert Into VaridatNevleri (NevIsmi,AnaOKytNo, SiraNo) VALUES
+Insert Into MevcudatNevleri (NevIsmi,AnaOKytNo, SiraNo) VALUES
 	('Nakit', 0, 1),
     ('Banka', 0,10);
    

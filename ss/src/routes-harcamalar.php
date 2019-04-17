@@ -30,7 +30,7 @@ $app->get('/harcamalar/{ilkTarih}/{sonTarih}', function ($request, $response, $a
     $netice = NeticeOlustur(BlokDisi, Hata, []);
     try {
         $harcamalar = $this->db->query(
-            "SELECT OKytNo, KaydTarihi, modification_time, Tarih, (Select NevIsmi From HarcamaNevleri Where OKytNo = RbtHarcamaNevleri) As Nev, RbtHarcamaNevleri, Mikdar, Izah
+            "SELECT OKytNo, KaydTarihi, modification_time, Tarih, (Select NevIsmi From HarcamaNevleri Where OKytNo = RbtNevler) As Nev, RbtNevler, Mikdar, Izah
             FROM Harcamalar
             Where Tarih Between :ilkTarih And :sonTarih
             Order By Tarih Desc, OKytNo Desc",
@@ -49,12 +49,12 @@ $app->put('/harcama', function ($request, $response, $args) {
     try {
         $eklenenKayitAdedi = $this->db->query(
             "Update Harcamalar 
-             Set Tarih = :Tarih, RbtHarcamaNevleri = :RbtHarcamaNevleri, 
+             Set Tarih = :Tarih, RbtNevler = :RbtNevler, 
              Mikdar = :Mikdar, Izah = :Izah
              Where OKytNo = :OKytNo",
-            array("Tarih" => $input['Tarih'], "RbtHarcamaNevleri" => $input['RbtHarcamaNevleri'],
+            array("Tarih" => $input['Tarih'], "RbtNevler" => $input['RbtNevler'],
                 "Mikdar" => $input['Mikdar'], "Izah" => $input['Izah'], "OKytNo" => $input['OKytNo']));        
-        $input['Nev'] = NevGetir(' HarcamaNevleri ', $input['RbtHarcamaNevleri'], $this);        
+        $input['Nev'] = NevGetir(' HarcamaNevleri ', $input['RbtNevler'], $this);        
         $netice = NeticeOlustur(Tamam, Veriler, $input);
     } catch (Exception $e) {
         $netice = NeticeOlustur(Hata, Hata, $e->getMessage());
@@ -67,12 +67,12 @@ $app->post('/harcama', function ($request, $response, $args) {
     $input = $request->getParsedBody();
     $netice = NeticeOlustur(BlokDisi, Hata, []);
     try {
-        $eklenenKayitAdedi = $this->db->query("Insert Into Harcamalar (Tarih, RbtHarcamaNevleri, Mikdar, Izah) VALUES(:Tarih,:RbtHarcamaNevleri, :Mikdar, :Izah)",
-            array("Tarih" => $input['Tarih'], "RbtHarcamaNevleri" => $input['RbtHarcamaNevleri'],
+        $eklenenKayitAdedi = $this->db->query("Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)",
+            array("Tarih" => $input['Tarih'], "RbtNevler" => $input['RbtNevler'],
                 "Mikdar" => $input['Mikdar'], "Izah" => $input['Izah']));
         //Bak bunu hemen al. Başka bir işlem yaptıktan sonra alıyorsun, sonra 0 geliyor.
         $input['OKytNo'] = $this->db->sonEklenenKayitNoGetir();
-        $input['Nev'] = NevGetir(' HarcamaNevleri ', $input['RbtHarcamaNevleri'], $this);        
+        $input['Nev'] = NevGetir(' HarcamaNevleri ', $input['RbtNevler'], $this);        
         $netice = NeticeOlustur(Tamam, Veriler, $input);
     } catch (Exception $e) {
         $netice = NeticeOlustur(Hata, Hata, $e->getMessage());

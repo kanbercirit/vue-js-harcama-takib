@@ -34,7 +34,6 @@
             :kayitlar="sarfiyat"
             :nevler="sarfNevleri"
             :kayit="sarf"
-            :nevAlanIsmi="'kayit.RbtHarcamaNevleri'"
             @KayitGridKaydiSil="HarcamaKaydiSil"
             @KayitGridKayitDegisti="HarcamaKaydiDegisti"
             @Kaydet="HarcamayiKaydet"
@@ -46,13 +45,22 @@
             :kayitlar="gelirler"
             :nevler="gelirNevleri"
             :kayit="gelir"
-            :nevAlanIsmi="'kayit.RbtGelirNevleri'"
             @KayitGridKaydiSil="GelirKaydiSil"
             @KayitGridKayitDegisti="GelirKaydiDegisti"
             @Kaydet="GeliriKaydet"
           ></appKayitGrid>
         </div>
-        <div class="tab-pane container fade" id="varidat">...</div>
+        <div class="tab-pane container fade" id="varidat">
+          <appKayitGrid
+            :name="'mevcudat'"
+            :kayitlar="mevcudat"
+            :nevler="mevcudatNevleri"
+            :kayit="mevcud"
+            @KayitGridKaydiSil="MevcutKaydiSil"
+            @KayitGridKayitDegisti="MevcutKaydiDegisti"
+            @Kaydet="MevcuduKaydet"
+          ></appKayitGrid>
+        </div>
         <div class="tab-pane container fade" id="odemeplani">...</div>
       </div>
     </div>
@@ -81,11 +89,16 @@ export default {
     return {
       tarihler: { ilkTarih: new Date(), sonTarih: new Date() },
       sarfNevleri: Array,
-      sarfiyat: [],
       gelirNevleri: Array,
+      mevcudatNevleri: Array,
+
+      sarfiyat: [],
       gelirler: [],
+      mevcudat: [],
+
       gelir: {},
-      sarf: {}
+      sarf: {},
+      mevcud: {}
     };
   },
   methods: {
@@ -108,7 +121,7 @@ export default {
       );
     },
     HarcamayiKaydet: function(pKayitDurumu) {
-      console.log(pKayitDurumu);
+      console.log(pKayitDurumu + " -- Harcama");
       console.log(JSON.stringify(this.sarf));
     },
     HarcamaKaydiDegisti: function(pKayit) {
@@ -117,15 +130,26 @@ export default {
     HarcamaKaydiSil: function(pIntA) {
       this.$delete(this.sarfiyat, pIntA);
     },
+
     GeliriKaydet: function(pKayitDurumu) {
-      console.log(pKayitDurumu);
+      console.log(pKayitDurumu + " -- Gelir");
       console.log(JSON.stringify(this.gelir));
     },
     GelirKaydiDegisti: function(pKayit) {
       this.gelir = pKayit;
     },
     GelirKaydiSil: function(pIntA) {
-      this.$delete(this.gelirler, pIntA);
+      this.$delete(this.mevcudat, pIntA);
+    },
+    MevcuduKaydet: function(pKayitDurumu) {
+      console.log(pKayitDurumu + " -- Mevcud");
+      console.log(JSON.stringify(this.mevcud));
+    },
+    MevcutKaydiDegisti: function(pKayit) {
+      this.mevcud = pKayit;
+    },
+    MevcutKaydiSil: function(pIntA) {
+      this.$delete(this.sarfiyat, pIntA);
     },
     GelirleriGetir: function() {
       //               http://localhost:3000/ss/slim/gelirler/2019-01-15/2019-04-14
@@ -141,6 +165,13 @@ export default {
         this.sarfiyat = result.data.Veriler;
       });
     },
+    MevcudatGetir: function() {
+      //               http://localhost:3000/ss/slim/harcamalar/2019-01-15/2019-04-14
+      const baseURI = eventBus.restApi + "/mevcudat/" + this.TarihleriGetir();
+      this.$http.get(baseURI).then(result => {
+        this.mevcudat = result.data.Veriler;
+      });
+    },
     GelirNevleriGetir: function() {
       const baseURI = eventBus.restApi + "/gelirnevleri";
       this.$http.get(baseURI).then(result => {
@@ -153,11 +184,19 @@ export default {
         this.sarfNevleri = result.data[0];
       });
     },
+    MevcudatNevleriGetir: function() {
+      const baseURI = eventBus.restApi + "/mevcudatnevleri";
+      this.$http.get(baseURI).then(result => {
+        this.mevcudatNevleri = result.data[0];
+      });
+    },
     VerileriGetir: function() {
       this.SarfiyatGetir();
       this.SarfNevleriGetir();
       this.GelirleriGetir();
       this.GelirNevleriGetir();
+      this.MevcudatNevleriGetir();
+      this.MevcudatGetir();
     }
   },
   created() {
