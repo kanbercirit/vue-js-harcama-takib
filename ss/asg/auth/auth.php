@@ -44,6 +44,8 @@ class Kullanici
     {
         $yol = __DIR__ . '/../tmp';
         ini_set('session.save_path', $yol);
+        ini_set('session.cookie_lifetime', 1440);
+        ini_set('session.gc_maxlifetime', 1440);
         //echo 'Yol: ' . $yol . '<br>';
         if (!isset($_SESSION)) {
             session_start();

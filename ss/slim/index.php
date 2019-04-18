@@ -11,6 +11,8 @@ if (PHP_SAPI == 'cli-server') {
 
 require __DIR__ . '/../vendor/autoload.php';
 ini_set('session.save_path', __DIR__ . '/../../tmp');
+ini_set('session.cookie_lifetime', 1440);
+ini_set('session.gc_maxlifetime', 1440);
 session_start();
 
 // Instantiate the app
