@@ -1,16 +1,11 @@
 <template>
   <div class="container">
     <div class="row" style="margin-top:10px;">
-      <appTarihAraligi @TarihAraligiDegisti="VerileriGetir" :tarihler="tarihler"></appTarihAraligi>
-      <div class="umumi-yekun" id="left" style="display:none">
-        <span id="GelirlerYekunu" name="GelirlerYekunu" class="badge badge-info"></span>
-        <span class="badge badge-danger">-</span>
-        <span id="HarcamalarYekunu" name="HarcamalarYekunu" class="badge badge-info"></span>
-        <span class="badge badge-danger">-</span>
-        <span id="VaridatYekunu" name="VaridatYekunu" class="badge badge-info"></span>
-        <span class="badge badge-danger">=</span>
-        <span id="EksikFazla" name="EksikFazla" class="badge badge-info"></span>
-      </div>
+      <appTarihAraligi
+        @TarihAraligiDegisti="VerileriGetir"
+        :umumiYekun="umumiYekun"
+        :tarihler="tarihler"
+      ></appTarihAraligi>
     </div>
     <div id="tabs" style="margin-top:10px;">
       <ul class="nav nav-tabs" role="tablist">
@@ -97,8 +92,15 @@ export default {
       mevcudat: [],
 
       gelir: {},
+      //sarf: { Tarih: "2019-04-23", RbtNevler: 3, Mikdar: "1.02" },
       sarf: {},
-      mevcud: {}
+      mevcud: {
+        Tarih: "2019-04-17",
+        RbtNevler: 7,
+        Mikdar: "10",
+        Izah: "Sairatt..."
+      },
+      umumiYekun: {}
     };
   },
   methods: {
@@ -121,58 +123,103 @@ export default {
       );
     },
     HarcamayiKaydet: function(pKayitDurumu) {
-      console.log(pKayitDurumu + " -- Harcama");
-      console.log(JSON.stringify(this.sarf));
+      if (pKayitDurumu === "Yeni Kayıt") {
+        const baseURI = eventBus.restApi + "/harcama";
+        this.$http.post(baseURI, this.sarf).then(result => {
+          this.sarfiyat.splice(0, 0, result.data.Veriler);
+          this.sarf = {};
+        });
+      }
+      if (pKayitDurumu === "Düzenleme") {
+        const baseURI = eventBus.restApi + "/harcama";
+        this.$http.put(baseURI, this.sarf).then(result => {
+          this.sarfiyat.splice(this.sarf.indexNo, 1, result.data.Veriler);
+          this.sarf = {};
+        });
+      }
     },
     HarcamaKaydiDegisti: function(pKayit) {
       this.sarf = pKayit;
     },
     HarcamaKaydiSil: function(pIntA) {
-      const baseURI = eventBus.restApi + "/harcama"; // + this.sarfiyat[pIntA].OKytNo;
-      this.$http
-        .delete(baseURI, { data: { OKytNo: this.sarfiyat[pIntA].OKytNo } })
-        .then(result => {
-          //this.sarfiyat = result.data.Veriler;
+      const baseURI =
+        eventBus.restApi + "/harcama/" + this.sarfiyat[pIntA].OKytNo;
+      this.$http.delete(baseURI).then(result => {
+        if (result.data.Veriler.SilinenKayitAdedi > 0) {
           this.$delete(this.sarfiyat, pIntA);
-        });
+        }
+      });
     },
 
     GeliriKaydet: function(pKayitDurumu) {
-      console.log(pKayitDurumu + " -- Gelir");
-      console.log(JSON.stringify(this.gelir));
+      if (pKayitDurumu === "Yeni Kayıt") {
+        const baseURI = eventBus.restApi + "/gelir";
+        this.$http.post(baseURI, this.gelir).then(result => {
+          this.gelirler.splice(0, 0, result.data.Veriler);
+          this.gelir = {};
+        });
+      }
+      if (pKayitDurumu === "Düzenleme") {
+        const baseURI = eventBus.restApi + "/gelir";
+        this.$http.put(baseURI, this.gelir).then(result => {
+          this.gelirler.splice(this.gelir.indexNo, 1, result.data.Veriler);
+          this.gelir = {};
+        });
+      }
     },
     GelirKaydiDegisti: function(pKayit) {
       this.gelir = pKayit;
     },
     GelirKaydiSil: function(pIntA) {
-      this.$delete(this.mevcudat, pIntA);
+      const baseURI =
+        eventBus.restApi + "/gelir/" + this.gelirler[pIntA].OKytNo;
+      this.$http.delete(baseURI).then(result => {
+        if (result.data.Veriler.SilinenKayitAdedi > 0) {
+          this.$delete(this.gelirler, pIntA);
+        }
+      });
     },
     MevcuduKaydet: function(pKayitDurumu) {
-      console.log(pKayitDurumu + " -- Mevcud");
-      console.log(JSON.stringify(this.mevcud));
+      if (pKayitDurumu === "Yeni Kayıt") {
+        const baseURI = eventBus.restApi + "/mevcudat";
+        this.$http.post(baseURI, this.mevcud).then(result => {
+          this.mevcudat.splice(0, 0, result.data.Veriler);
+          this.mevcud = {};
+        });
+      }
+      if (pKayitDurumu === "Düzenleme") {
+        const baseURI = eventBus.restApi + "/mevcudat";
+        this.$http.put(baseURI, this.mevcud).then(result => {
+          this.mevcudat.splice(this.mevcud.indexNo, 1, result.data.Veriler);
+          this.mevcud = {};
+        });
+      }
     },
     MevcutKaydiDegisti: function(pKayit) {
       this.mevcud = pKayit;
     },
     MevcutKaydiSil: function(pIntA) {
-      this.$delete(this.sarfiyat, pIntA);
+      const baseURI =
+        eventBus.restApi + "/mevcudat/" + this.mevcudat[pIntA].OKytNo;
+      this.$http.delete(baseURI).then(result => {
+        if (result.data.Veriler.SilinenKayitAdedi > 0) {
+          this.$delete(this.mevcudat, pIntA);
+        }
+      });
     },
     GelirleriGetir: function() {
-      //               http://localhost:3000/ss/slim/gelirler/2019-01-15/2019-04-14
       const baseURI = eventBus.restApi + "/gelirler/" + this.TarihleriGetir();
       this.$http.get(baseURI).then(result => {
         this.gelirler = result.data.Veriler;
       });
     },
     SarfiyatGetir: function() {
-      //               http://localhost:3000/ss/slim/harcamalar/2019-01-15/2019-04-14
       const baseURI = eventBus.restApi + "/harcamalar/" + this.TarihleriGetir();
       this.$http.get(baseURI).then(result => {
         this.sarfiyat = result.data.Veriler;
       });
     },
     MevcudatGetir: function() {
-      //               http://localhost:3000/ss/slim/harcamalar/2019-01-15/2019-04-14
       const baseURI = eventBus.restApi + "/mevcudat/" + this.TarihleriGetir();
       this.$http.get(baseURI).then(result => {
         this.mevcudat = result.data.Veriler;
@@ -196,6 +243,12 @@ export default {
         this.mevcudatNevleri = result.data[0];
       });
     },
+    UmumiYekunGetir: function() {
+      const baseURI = eventBus.restApi + "/umumiYekun/" + this.TarihleriGetir();
+      this.$http.get(baseURI).then(result => {
+        this.umumiYekun = result.data.Veriler[0];
+      });
+    },
     VerileriGetir: function() {
       this.SarfiyatGetir();
       this.SarfNevleriGetir();
@@ -203,10 +256,12 @@ export default {
       this.GelirNevleriGetir();
       this.MevcudatNevleriGetir();
       this.MevcudatGetir();
+      this.UmumiYekunGetir();
     }
   },
   created() {
-    let tarih = new Date("2019-02-15");
+    //let tarih = new Date("2019-02-15");
+    let tarih = new Date();
     this.tarihler = Ensar.donemGetir(tarih);
     this.VerileriGetir();
   },

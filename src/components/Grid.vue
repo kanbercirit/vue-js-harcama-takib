@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-hover table-responsive table-sm">
       <thead>
         <tr>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     DuzeltmeyeHazirla: function(pIntA) {
-      var kilon = Ensar.clone(this.kayitlar[pIntA]);
+      let kilon = Ensar.clone(this.kayitlar[pIntA]);
       kilon.indexNo = pIntA;
       this.$emit("KayitDegisti", kilon);
     },
@@ -57,9 +57,6 @@ export default {
     SilmeyeHazirla: function(pIntA) {
       let cevab = confirm("Kaydı silmek istediğinizden Emin Misiniz?");
       if (cevab == true) {
-        console.log(
-          "İndex: " + pIntA + " OKytNo: " + this.kayitlar[pIntA].OKytNo
-        );
         this.Sil(pIntA);
         this.$emit("KayitDegisti", {});
       }

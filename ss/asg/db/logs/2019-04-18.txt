@@ -1,0 +1,99 @@
+Time : 16:36:02
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 16:35:01
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 16:30:00
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 16:28:17
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 16:26:33
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 16:26:23
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 16:24:49
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Mevcudat (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 13:34:57
+Init: SQLSTATE[42000]: Syntax error or access violation: 1248 Every derived table must have its own alias
+Raw SQL : Select * ,  gelirlerYekunu - harcamalarYekunu - MevcudatYekunu As Netice From
+            (Select 
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Gelirler   Where Tarih Between :ilkTarih1 And :sonTarih1)As gelirlerYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Harcamalar Where Tarih Between :ilkTarih2 And :sonTarih2)As harcamalarYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Mevcudat Where Tarih Between :ilkTarih3 And :sonTarih3)As MevcudatYekunu
+            )
+
+Time : 13:33:23
+Init: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'gelirlerYekunu' in 'field list'
+Raw SQL : Select 
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Gelirler   Where Tarih Between :ilkTarih1 And :sonTarih1)As gelirlerYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Harcamalar Where Tarih Between :ilkTarih2 And :sonTarih2)As harcamalarYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Mevcudat Where Tarih Between :ilkTarih3 And :sonTarih3)As MevcudatYekunu,
+              gelirlerYekunu - harcamalarYekunu - MevcudatYekunu As Netice
+
+Time : 13:30:29
+Init: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'harcama_takib.Varidatlar' doesn't exist
+Raw SQL : Select 
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Gelirler   Where Tarih Between :ilkTarih1 And :sonTarih1)As gelirlerYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Harcamalar Where Tarih Between :ilkTarih2 And :sonTarih2)As harcamalarYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Varidatlar Where Tarih Between :ilkTarih3 And :sonTarih3)As varidatlarYekunu
+
+Time : 13:29:48
+Init: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'harcama_takib.Varidatlar' doesn't exist
+Raw SQL : Select 
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Gelirler   Where Tarih Between :ilkTarih1 And :sonTarih1)As gelirlerYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Harcamalar Where Tarih Between :ilkTarih2 And :sonTarih2)As harcamalarYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Varidatlar Where Tarih Between :ilkTarih3 And :sonTarih3)As varidatlarYekunu
+
+Time : 13:29:44
+Init: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'harcama_takib.Varidatlar' doesn't exist
+Raw SQL : Select 
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Gelirler   Where Tarih Between :ilkTarih1 And :sonTarih1)As gelirlerYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Harcamalar Where Tarih Between :ilkTarih2 And :sonTarih2)As harcamalarYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Varidatlar Where Tarih Between :ilkTarih3 And :sonTarih3)As varidatlarYekunu
+
+Time : 13:29:41
+Init: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'harcama_takib.Varidatlar' doesn't exist
+Raw SQL : Select 
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Gelirler   Where Tarih Between :ilkTarih1 And :sonTarih1)As gelirlerYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Harcamalar Where Tarih Between :ilkTarih2 And :sonTarih2)As harcamalarYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Varidatlar Where Tarih Between :ilkTarih3 And :sonTarih3)As varidatlarYekunu
+
+Time : 13:28:53
+Init: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'harcama_takib.Varidatlar' doesn't exist
+Raw SQL : Select 
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Gelirler   Where Tarih Between :ilkTarih1 And :sonTarih1)As gelirlerYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Harcamalar Where Tarih Between :ilkTarih2 And :sonTarih2)As harcamalarYekunu,
+              (SELECT IFNULL(Sum(Mikdar), 0) As Yekun FROM Varidatlar Where Tarih Between :ilkTarih3 And :sonTarih3)As varidatlarYekunu
+
+Time : 11:13:22
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 11:13:04
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 11:11:48
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 11:11:09
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 11:08:35
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)

@@ -19,7 +19,7 @@
           step="0.01"
           placeholder="Mikdar"
           class="form-control"
-          min="1"
+          min="0"
           required
         >
         <input v-model="kayit.Izah" type="text" placeholder="İzah" class="form-control">
@@ -50,14 +50,13 @@ export default {
   name: "Kayd",
   props: {
     nevler: null,
-    kayit: null,
-    nevAlanIsmi: null
+    kayit: null
   },
   methods: {
     DuzeltmeyiIptalEt: function() {
       this.$emit("KayitDegisti", {});
     },
-    Kaydet: function(pForm) {
+    Kaydet: function() {
       this.$emit("KayitDegisti", this.kayit);
       this.$emit("Kaydet", this.kayitDurumu);
       //if (this.kayitDurumu === "Yeni Kayıt") {
