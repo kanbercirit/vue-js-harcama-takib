@@ -8,6 +8,9 @@ Aşağıdaki sırayla çalıştırınız. (Run in the following order.)
 01-harcama-takib-tablolar.sql
 02-nevleri-ekle.sql
 03-harcama-gelir-ekle.sql
+
+Veritabanı bilgileri ise şu dosyada tutuluyor:
+/ss/src/settings.php
 ```
 
 ## İlk Kurulum (Project setup)

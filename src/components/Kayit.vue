@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{nevAlanIsmi}}
     <form @submit.prevent="Kaydet(this)">
       <div class="input-group mb-3">
         <input type="hidden" v-model="kayit.indexNo">
