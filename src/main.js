@@ -10,7 +10,8 @@ export const eventBus = new Vue({
   name: "Sarfiyat",
   data() {
     return {
-      restApi: "http://localhost:3000"
+      restApi: "http://localhost:8081/api",
+      restApiKok: "http://localhost:8081"
     };
   }
 });

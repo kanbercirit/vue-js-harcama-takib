@@ -4,20 +4,26 @@
 
 use harcama_takib;
 
-/*Drop Table IF EXISTS HarcamaNevleri;*/
-
-/*
 CREATE TABLE IF NOT EXISTS Kullanicilar(
-	OKytNo			Int		Not Null AUTO_INCREMENT,
-    KaydTarihi     		DATETIME DEFAULT CURRENT_TIMESTAMP,
-    modification_time 	DATETIME ON UPDATE CURRENT_TIMESTAMP,	
-	isim 				VarChar(180) NOT NULL,
-	kisim 				VarChar(180) NOT NULL,
-	kmail 				VarChar(180) NOT NULL,	
-	ksifre 				VarChar(180) NOT NULL,
-		CONSTRAINT PK__Kullanicilar__OKytNo PRIMARY KEY(OKytNo)
-);
-*/
+	OKytNo				Int		Not Null AUTO_INCREMENT,
+    KaydTarihi			timestamp DEFAULT CURRENT_TIMESTAMP,
+	GuncellemeTarihi 	timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	isim 				VarChar(255) NOT NULL,
+	soyisim 			VarChar(255) NOT NULL,	
+	email 				VarChar(255) NOT NULL,	
+	sifre 				VarChar(255) NOT NULL,
+	    CONSTRAINT PK__Kullanicilar__OKytNo PRIMARY KEY(OKytNo),	
+		CONSTRAINT UK__Kullanicilar__email UNIQUE(email)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+INSERT INTO `Kullanicilar` (`OKytNo`, `isim`, `soyisim`, `email`, `sifre`) VALUES
+(1, 'Ali', 'KOCA', 'ali.koca@gmail.com', '$2y$10$2N74YBkxYXPtEtFTxynuxeEn9OH9BZ.wI4ldZr00n1FX5q09/llbO');                                          
+ 
+INSERT INTO `Kullanicilar` (`OKytNo`, `isim`, `soyisim`, `email`, `sifre`) VALUES
+(2, 'Arjun', 'A', 'arjunphp@gmail.com', '$2y$10$2N74YBkxYXPtEtFTxynuxeEn9OH9BZ.wI4ldZr00n1FX5q09/llbO');
+
+Select * From Kullanicilar;
+
 CREATE TABLE IF NOT EXISTS HarcamaNevleri(
 	OKytNo			Int		Not Null AUTO_INCREMENT,
     KaydTarihi     		DATETIME DEFAULT CURRENT_TIMESTAMP,

@@ -3,6 +3,7 @@
     <table class="table table-hover table-responsive table-sm">
       <thead>
         <tr>
+          <th class="w-5-pct">S.No</th>
           <th class="w-10-pct">Tarih</th>
           <th class="w-10-pct">Nev</th>
           <th class="w-15-pct">Mikdar</th>
@@ -12,6 +13,7 @@
       </thead>
       <tbody id="harcama-tablo-govde">
         <tr v-for="(kayit, index) in kayitlar" :value="kayit.OKytNo" :key="index">
+          <td>{{kayitlar.length - index}}.</td>
           <td>{{kayit.Tarih}}</td>
           <td>{{kayit.Nev}}</td>
           <td>{{kayit.Mikdar}}</td>

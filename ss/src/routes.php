@@ -1,52 +1,61 @@
 <?php
-require "../asg/ensar/sabitler.php";
+use Slim\App;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-function NeticeOlustur($pNetice, $pDiziIsmi, $pDiziVerisi)
-{
-    $netice = ['Netice' => $pNetice, $pDiziIsmi => $pDiziVerisi];
-    return $netice;
-}
+require __DIR__ . "/access.php";
+require __DIR__ . "/../asg/ensar/sabitler.php";
+require __DIR__ . "/ensar-harcama.php";
+require __DIR__ . '/../asg/ensar/netice_kodlari.php';
+require __DIR__ . '/../asg/auth/auth.php';
+require __DIR__ . '/../asg/db/Db.class.php';
 
-function tablodanKayitlariGetir($pApp, $pTablo, $pAlanlar, $pSerait)
-{
-    $netice = NeticeOlustur(BlokDisi, Hata, []);
-    try {
-        $sorgu = "SELECT ". $pAlanlar ." FROM " . $pTablo;
-        if($pSerait){
-            $sorgu += "Where " + $pSerait;
-        }
-        $kayitlar = $pApp->db->query($sorgu);
-        $netice = NeticeOlustur(Tamam, Veriler, $kayitlar);
-    } catch (Exception $e) {
-        $netice = NeticeOlustur(Hata, Hata, $e->getMessage());
-    } finally {
-        return $this->response->withJson($netice);
-    }
-}
+return function (App $app) {
+    //echo "Ali gel.";
+    $container = $app->getContainer();
+    $sabitler = new Sabitler();
+    $c = $app->getContainer();
+    $container['notAllowedHandler'] = function ($container) {
+        return function ($request, $response, $methods) use ($container) {
+            return $response->withStatus(405)
+                ->withHeader('Allow', implode(', ', $methods))
+                ->withHeader('Content-type', 'text/html')
+                ->write('Method must be one of: ' . implode(', ', $methods));
+        };
+    };
 
-function NevGetir($pTablo, $pHarcamaNevOKytNo, $pApp)
-{
-    $netice = [];
-    try {
-        $netice = $pApp->db->query("SELECT NevIsmi FROM " . $pTablo . " Where OKytNo = :OKytNo",
-            array("OKytNo" => $pHarcamaNevOKytNo));
-    } catch (Exception $e) {
-        $netice = $e->getMessage();
-    } finally {
-        if (count($netice) > 0) {
-            $netice = $netice[0]['NevIsmi'];
-        } else {
-            $netice = '';
-        }        
-    }
-    return $netice;
-}
+    $app->get('/', function (Request $request, Response $response, array $args) {
+        return $this->response->withJson(['Netice' => "Çalıştı."]);
+    });
 
-require "access.php";
+    require __DIR__ . "/login.php";
 
-require "routes-umumi.php";
-require "routes-harcamalar.php";
-require "routes-gelirler.php";
-require "routes-varidatlar.php";
+    $app->group('/api', function (\Slim\App $app) {
+        require __DIR__ . "/routes-umumi.php";
+        require __DIR__ . "/routes-harcamalar.php";
+        require __DIR__ . "/routes-gelirler.php";
+        require __DIR__ . "/routes-varidatlar.php";
 
-require "map.php";
+        $app->get('/user', function (Request $request, Response $response, array $args) {
+            $decoded_token_data = $request->getAttribute('decoded_token_data');
+            $email = $decoded_token_data["email"];
+            $sql = "SELECT * FROM users WHERE email= :email";
+            $sth = $this->db->prepare($sql);
+            $sth->bindParam("email", $email);
+            $sth->execute();
+            $user = $sth->fetchObject();
+            // verify email address.
+            $netice = "";
+            if ($user) {
+                $netice = "Merhaba, " . $user->first_name . ' ' . $user->last_name;
+            }
+            return $this->response->withJson(['Kullanıcı: ' => $netice]);
+        });
+
+        $sabitler = null;
+    });
+
+    $sabitler = null;
+};
+
+require __DIR__ . "/map.php";

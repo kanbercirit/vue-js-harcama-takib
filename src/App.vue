@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <div class="row" style="margin-top:10px;">
+      <app-login :girisYapmis="girisYapmis" :girisBilgileri="girisBilgileri" @GirisYap="GirisYap"></app-login>
+      <app-user-panel
+        :girisYapmis="girisYapmis"
+        :kullaniciIsmi="kullaniciIsmi"
+        @KullaniciyiCikart="KullaniciyiCikart"
+      ></app-user-panel>
       <appTarihAraligi
         @TarihAraligiDegisti="VerileriGetir"
         :umumiYekun="umumiYekun"
@@ -67,21 +73,41 @@ import { Ensar } from "./assets/js/Ensar.js";
 import { eventBus } from "./main.js";
 import KayitGrid from "./components/KayitGrid";
 import TarihAraligi from "./components/TarihAraligi";
+import Login from "./components/login/Login";
+import UserPanel from "./components/login/UserPanel";
+
 import Vue from "vue";
 import axios from "axios";
 import moment from "moment";
 
 Vue.prototype.moment = moment;
 Vue.prototype.$http = axios;
+axios.interceptors.request.use(
+  config => {
+    let token = localStorage.token;
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject("Hata: " + error);
+  }
+);
 
 export default {
   name: "AnaUygulama",
   components: {
     appKayitGrid: KayitGrid,
-    appTarihAraligi: TarihAraligi
+    appTarihAraligi: TarihAraligi,
+    appLogin: Login,
+    appUserPanel: UserPanel
   },
   data: function() {
     return {
+      token: null,
+      girisBilgileri: { email: "ali.koca@gmail.com", sifre: "Arjun@123" },
+      kullaniciIsmi: null,
       tarihler: { ilkTarih: new Date(), sonTarih: new Date() },
       sarfNevleri: Array,
       gelirNevleri: Array,
@@ -115,6 +141,18 @@ export default {
     dateTime: function(date) {
       return moment(date).format("DD.MM.YYYY hh:mm:ss");
     },*/
+    GirisYap: function(pGirisBilgileri) {
+      //alert("GirisYap");
+      const baseURI = eventBus.restApiKok + "/login";
+      this.$http.post(baseURI, pGirisBilgileri).then(result => {
+        if (result.data.Netice === "Tamam") {
+          this.token = result.data.Token;
+        }
+      });
+    },
+    KullaniciyiCikart() {
+      this.token = null;
+    },
     TarihleriGetir: function() {
       return (
         Ensar.yilAyGunTarih(this.tarihler.ilkTarih) +
@@ -250,17 +288,16 @@ export default {
       });
     },
     VerileriGetir: function() {
-      this.SarfiyatGetir();
       this.SarfNevleriGetir();
-      this.GelirleriGetir();
       this.GelirNevleriGetir();
       this.MevcudatNevleriGetir();
+      this.SarfiyatGetir();
+      this.GelirleriGetir();
       this.MevcudatGetir();
       this.UmumiYekunGetir();
     }
   },
   created() {
-    //let tarih = new Date("2019-02-15");
     let tarih = new Date();
     this.tarihler = Ensar.donemGetir(tarih);
     this.VerileriGetir();
@@ -268,6 +305,22 @@ export default {
   filters: {
     moment: function(date) {
       return moment(date).format("L");
+    }
+  },
+  mounted() {
+    if (localStorage.token) {
+      this.token = localStorage.token;
+    }
+  },
+  computed: {
+    girisYapmis: function() {
+      return this.token ? true : false;
+      //
+    }
+  },
+  watch: {
+    token(newtoken) {
+      localStorage.token = newtoken;
     }
   }
 };
@@ -281,5 +334,19 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
 }
 </style>

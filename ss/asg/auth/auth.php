@@ -48,7 +48,7 @@ class Kullanici
         ini_set('session.gc_maxlifetime', 1440);
         //echo 'Yol: ' . $yol . '<br>';
         if (!isset($_SESSION)) {
-            session_start();
+            //session_start();
         }
         $this->neticeKodlarim = new NeticeKodlari;
         $this->DatabaseAyarla();
