@@ -1,11 +1,28 @@
 <template>
   <div>
-    <form @submit.prevent="Kaydet(this)">
+    <div class="control">
       <div class="input-group mb-3">
         <input type="hidden" v-model="kayit.indexNo">
         <input v-model="kayit.OKytNo" type="hidden">
-        <input type="date" v-model="kayit.Tarih" placeholder="Tarih" class="form-control" required>
-        <select placeholder="Nevi Giriniz" class="form-control" v-model="kayit.RbtNevler">
+        <input
+          id="tbTarih"
+          name="tbTarih"
+          tabindex="1"
+          type="date"
+          v-model="kayit.Tarih"
+          placeholder="Tarih"
+          class="form-control"
+          v-on:keyup.enter="$event.target.nextElementSibling.focus()"
+          required
+        >
+        <select
+          tabindex="2"
+          placeholder="Nevi Giriniz"
+          class="form-control"
+          v-model="kayit.RbtNevler"
+          v-on:keyup.enter="$event.target.nextElementSibling.focus()"
+          required
+        >
           <option
             v-for="nev in nevler"
             v-bind:value="nev.OKytNo"
@@ -14,26 +31,42 @@
         </select>
         <input
           type="Number"
+          tabindex="3"
           v-model="kayit.Mikdar"
           step="0.01"
           placeholder="Mikdar"
           class="form-control"
           min="0"
+          v-on:keyup.enter="$event.target.nextElementSibling.focus()"
           required
         >
-        <input v-model="kayit.Izah" type="text" placeholder="İzah" class="form-control">
+        <input
+          tabindex="4"
+          v-model="kayit.Izah"
+          type="text"
+          placeholder="İzah"
+          class="form-control"
+          v-on:keyup.enter="izahEnterAsTab()"
+        >
         <div class="input-group-prepend">
           <button
+            id="btnKaydiEkle"
+            name="btnKaydiEkle"
+            tabindex="5"
             class="btn btn-success"
             v-if="kayitDurumu === 'Yeni Kayıt'"
-            type="submit"
+            @click="Kaydet()"
           >Kaydı Ekle</button>
           <button
+            id="btnKaydiDuzenle"
+            name="btnKaydiDuzenle"
+            tabindex="6"
             class="btn btn-success"
             v-if="kayitDurumu === 'Düzenleme'"
-            type="submit"
+            @click="Kaydet()"
           >Kaydı Güncelle</button>
           <button
+            tabindex="7"
             class="btn btn-danger"
             @click="DuzeltmeyiIptalEt()"
             type="button"
@@ -41,7 +74,7 @@
           >İptal</button>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 <script>
@@ -52,13 +85,23 @@ export default {
     kayit: null
   },
   methods: {
+    izahEnterAsTab: function() {
+      if (this.kayitDurumu === "Düzenleme") {
+        document.getElementById("btnKaydiDuzenle").focus();
+      } else {
+        document.getElementById("btnKaydiEkle").focus();
+      }
+    },
+    setFocus: function(element) {
+      document.getElementById(element).focus();
+    },
     DuzeltmeyiIptalEt: function() {
       this.$emit("KayitDegisti", {});
     },
     Kaydet: function() {
+      this.setFocus("tbTarih");
       this.$emit("KayitDegisti", this.kayit);
       this.$emit("Kaydet", this.kayitDurumu);
-      //if (this.kayitDurumu === "Yeni Kayıt") {
     }
   },
   data() {

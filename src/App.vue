@@ -1,68 +1,77 @@
 <template>
   <div class="container">
     <div class="row" style="margin-top:10px;">
-      <app-login :girisYapmis="girisYapmis" :girisBilgileri="girisBilgileri" @GirisYap="GirisYap"></app-login>
+      <app-login
+        :girisYapmis="girisYapmis"
+        :mesaj="loginMesaj"
+        :girisBilgileri="girisBilgileri"
+        @GirisYap="GirisYap"
+      ></app-login>
+    </div>
+    <div class="row">
       <app-user-panel
         :girisYapmis="girisYapmis"
         :kullaniciIsmi="kullaniciIsmi"
         @KullaniciyiCikart="KullaniciyiCikart"
       ></app-user-panel>
+    </div>
+    <div class="row" v-show="girisYapmis">
       <appTarihAraligi
         @TarihAraligiDegisti="VerileriGetir"
         :umumiYekun="umumiYekun"
         :tarihler="tarihler"
       ></appTarihAraligi>
-    </div>
-    <div id="tabs" style="margin-top:10px;">
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#sarfiyat">Harcamalar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#akarat">Gelirler</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#varidat">Varlıklar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#odemeplani">Ödeme Planı</a>
-        </li>
-      </ul>
-      <div class="tab-content border border-top-0" style="margin-top:0px;">
-        <div class="tab-pane container active" id="sarfiyat">
-          <appKayitGrid
-            :name="'harcamalar'"
-            :kayitlar="sarfiyat"
-            :nevler="sarfNevleri"
-            :kayit="sarf"
-            @KayitGridKaydiSil="HarcamaKaydiSil"
-            @KayitGridKayitDegisti="HarcamaKaydiDegisti"
-            @Kaydet="HarcamayiKaydet"
-          ></appKayitGrid>
+      <div id="tabs" style="margin-top:10px;">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#sarfiyat">Harcamalar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#akarat">Gelirler</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#varidat">Varlıklar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#odemeplani">Ödeme Planı</a>
+          </li>
+        </ul>
+        <div class="tab-content border border-top-0" style="margin-top:0px;">
+          <div class="tab-pane container active" id="sarfiyat">
+            <appKayitGrid
+              :name="'harcamalar'"
+              :kayitlar="sarfiyat"
+              :nevler="sarfNevleri"
+              :kayit="sarf"
+              @KayitGridKaydiSil="HarcamaKaydiSil"
+              @KayitGridKayitDegisti="HarcamaKaydiDegisti"
+              @Kaydet="HarcamayiKaydet"
+            ></appKayitGrid>
+          </div>
+          <div class="tab-pane container fade" id="akarat">
+            <appKayitGrid
+              :name="'gelirler'"
+              :kayitlar="gelirler"
+              :nevler="gelirNevleri"
+              :kayit="gelir"
+              @KayitGridKaydiSil="GelirKaydiSil"
+              @KayitGridKayitDegisti="GelirKaydiDegisti"
+              @Kaydet="GeliriKaydet"
+            ></appKayitGrid>
+          </div>
+          <div class="tab-pane container fade" id="varidat">
+            <appKayitGrid
+              :name="'mevcudat'"
+              :kayitlar="mevcudat"
+              :nevler="mevcudatNevleri"
+              :kayit="mevcud"
+              @KayitGridKaydiSil="MevcutKaydiSil"
+              @KayitGridKayitDegisti="MevcutKaydiDegisti"
+              @Kaydet="MevcuduKaydet"
+            ></appKayitGrid>
+          </div>
+          <div class="tab-pane container fade" id="odemeplani">...</div>
         </div>
-        <div class="tab-pane container fade" id="akarat">
-          <appKayitGrid
-            :name="'gelirler'"
-            :kayitlar="gelirler"
-            :nevler="gelirNevleri"
-            :kayit="gelir"
-            @KayitGridKaydiSil="GelirKaydiSil"
-            @KayitGridKayitDegisti="GelirKaydiDegisti"
-            @Kaydet="GeliriKaydet"
-          ></appKayitGrid>
-        </div>
-        <div class="tab-pane container fade" id="varidat">
-          <appKayitGrid
-            :name="'mevcudat'"
-            :kayitlar="mevcudat"
-            :nevler="mevcudatNevleri"
-            :kayit="mevcud"
-            @KayitGridKaydiSil="MevcutKaydiSil"
-            @KayitGridKayitDegisti="MevcutKaydiDegisti"
-            @Kaydet="MevcuduKaydet"
-          ></appKayitGrid>
-        </div>
-        <div class="tab-pane container fade" id="odemeplani">...</div>
       </div>
     </div>
   </div>
@@ -105,7 +114,8 @@ export default {
   },
   data: function() {
     return {
-      token: null,
+      loginMesaj: "",
+      token: localStorage.getItem("token"),
       girisBilgileri: { email: "ali.koca@gmail.com", sifre: "Arjun@123" },
       kullaniciIsmi: null,
       tarihler: { ilkTarih: new Date(), sonTarih: new Date() },
@@ -120,12 +130,7 @@ export default {
       gelir: {},
       //sarf: { Tarih: "2019-04-23", RbtNevler: 3, Mikdar: "1.02" },
       sarf: {},
-      mevcud: {
-        Tarih: "2019-04-17",
-        RbtNevler: 7,
-        Mikdar: "10",
-        Izah: "Sairatt..."
-      },
+      mevcud: {},
       umumiYekun: {}
     };
   },
@@ -147,11 +152,36 @@ export default {
       this.$http.post(baseURI, pGirisBilgileri).then(result => {
         if (result.data.Netice === "Tamam") {
           this.token = result.data.Token;
+          this.TarihAyarla();
+          this.VerileriGetir();
+          this.loginMesaj = "";
+        } else {
+          if (result.data.Netice === "Hata!") {
+            this.loginMesaj = result.data.Mesaj;
+          }
         }
       });
     },
     KullaniciyiCikart() {
-      this.token = null;
+      this.DegiskenleriBosalt();
+    },
+    DegiskenleriBosalt: function() {
+      this.loginMesaj = "";
+      localStorage.removeItem("token");
+      this.token = "";
+      this.kullaniciIsmi = null;
+      this.TarihAyarla();
+      this.sarfNevleri = Array;
+      this.gelirNevleri = Array;
+      this.mevcudatNevleri = Array;
+      this.sarfiyat = [];
+      this.gelirler = [];
+      this.mevcudat = [];
+      this.gelir = { Tarih: this.gelir.Tarih };
+      this.sarf = { Tarih: this.sarf.Tarih };
+      //console.log("Sarf: " + this.sarf);
+      this.mevcud = { Tarih: this.mevcud.Tarih };
+      this.umumiYekun = {};
     },
     TarihleriGetir: function() {
       return (
@@ -160,21 +190,36 @@ export default {
         Ensar.yilAyGunTarih(this.tarihler.sonTarih)
       );
     },
+    KullaniciGetir: function() {
+      //kullaniciIsmi
+      const baseURI = eventBus.restApi + "/user";
+      this.$http.get(baseURI).then(result => {
+        this.kullaniciIsmi = result.data.Veriler;
+        this.kullaniciIsmi =
+          this.kullaniciIsmi[0]["isim"] +
+          " " +
+          this.kullaniciIsmi[0]["soyisim"];
+      });
+    },
+    KayitlarDegisti: function() {
+       this.UmumiYekunGetir();
+    },
     HarcamayiKaydet: function(pKayitDurumu) {
       if (pKayitDurumu === "Yeni Kayıt") {
         const baseURI = eventBus.restApi + "/harcama";
         this.$http.post(baseURI, this.sarf).then(result => {
           this.sarfiyat.splice(0, 0, result.data.Veriler);
-          this.sarf = {};
+          this.sarf = { Tarih: this.sarf.Tarih };
         });
       }
       if (pKayitDurumu === "Düzenleme") {
         const baseURI = eventBus.restApi + "/harcama";
         this.$http.put(baseURI, this.sarf).then(result => {
           this.sarfiyat.splice(this.sarf.indexNo, 1, result.data.Veriler);
-          this.sarf = {};
+          this.sarf = { Tarih: this.sarf.Tarih };
         });
       }
+      this.KayitlarDegisti();
     },
     HarcamaKaydiDegisti: function(pKayit) {
       this.sarf = pKayit;
@@ -188,20 +233,19 @@ export default {
         }
       });
     },
-
     GeliriKaydet: function(pKayitDurumu) {
       if (pKayitDurumu === "Yeni Kayıt") {
         const baseURI = eventBus.restApi + "/gelir";
         this.$http.post(baseURI, this.gelir).then(result => {
           this.gelirler.splice(0, 0, result.data.Veriler);
-          this.gelir = {};
+          this.gelir = { Tarih: this.gelir.Tarih };
         });
       }
       if (pKayitDurumu === "Düzenleme") {
         const baseURI = eventBus.restApi + "/gelir";
         this.$http.put(baseURI, this.gelir).then(result => {
           this.gelirler.splice(this.gelir.indexNo, 1, result.data.Veriler);
-          this.gelir = {};
+          this.gelir = { Tarih: this.gelir.Tarih };
         });
       }
     },
@@ -222,14 +266,14 @@ export default {
         const baseURI = eventBus.restApi + "/mevcudat";
         this.$http.post(baseURI, this.mevcud).then(result => {
           this.mevcudat.splice(0, 0, result.data.Veriler);
-          this.mevcud = {};
+          this.mevcud = { Tarih: this.mevcud.Tarih };
         });
       }
       if (pKayitDurumu === "Düzenleme") {
         const baseURI = eventBus.restApi + "/mevcudat";
         this.$http.put(baseURI, this.mevcud).then(result => {
           this.mevcudat.splice(this.mevcud.indexNo, 1, result.data.Veriler);
-          this.mevcud = {};
+          this.mevcud = { Tarih: this.mevcud.Tarih };
         });
       }
     },
@@ -295,32 +339,44 @@ export default {
       this.GelirleriGetir();
       this.MevcudatGetir();
       this.UmumiYekunGetir();
+      this.KullaniciGetir();
+    },
+    TarihAyarla: function() {
+      let tarih = new Date();
+      this.tarihler = Ensar.donemGetir(tarih);
     }
   },
-  created() {
-    let tarih = new Date();
-    this.tarihler = Ensar.donemGetir(tarih);
-    this.VerileriGetir();
-  },
+  created() {},
   filters: {
     moment: function(date) {
       return moment(date).format("L");
     }
   },
   mounted() {
-    if (localStorage.token) {
-      this.token = localStorage.token;
+    if (localStorage.getItem("token")) {
+      this.token = localStorage.getItem("token");
     }
+    if (this.token == null) {
+      this.token = "";
+    }
+    if (this.token != "") {
+      this.TarihAyarla();
+      this.VerileriGetir();
+    }
+    //console.log("this.token: " + this.token);
   },
   computed: {
     girisYapmis: function() {
-      return this.token ? true : false;
-      //
+      let netice = false;
+      if (this.token != "") {
+        netice = true;
+      }
+      return netice;
     }
   },
   watch: {
     token(newtoken) {
-      localStorage.token = newtoken;
+      localStorage.setItem("token", newtoken);
     }
   }
 };

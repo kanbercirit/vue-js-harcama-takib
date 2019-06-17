@@ -16,7 +16,7 @@ export const eventBus = new Vue({
   }
 });
 
-//export const uygulama =
+export const uygulama =
 new Vue({
   render: h => h(App)
 }).$mount("#app");
