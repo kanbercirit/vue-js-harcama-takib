@@ -23,14 +23,13 @@
               class="btn btn-info m-r-10px update-product-button btn-sm"
               @click="DuzeltmeyeHazirla(index)"
             >
-              <span class="fa fa-edit"></span>
-              Düzelt
+              <font-awesome-icon icon="edit"/>Düzelt
             </button>
             <button
               class="btn btn-danger delete-product-button btn-sm"
               @click="SilmeyeHazirla(index)"
             >
-              <span class="fa fa-remove"></span> Sil
+              <font-awesome-icon icon="trash"/>Sil
             </button>
           </td>
         </tr>

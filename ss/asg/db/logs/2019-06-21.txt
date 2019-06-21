@@ -1,0 +1,39 @@
+Time : 13:58:33
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Mikdar' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 13:56:30
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'RbtNevler' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:59:50
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:41:08
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:40:16
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:37:15
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:36:53
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:33:43
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:32:37
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)
+
+Time : 09:25:13
+Init: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'Tarih' cannot be null
+Raw SQL : Insert Into Harcamalar (Tarih, RbtNevler, Mikdar, Izah) VALUES(:Tarih,:RbtNevler, :Mikdar, :Izah)

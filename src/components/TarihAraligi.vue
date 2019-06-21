@@ -4,7 +4,7 @@
     <input type="date" class="form-control col-sm-2" v-model="tarihler.ilkTarih" required>
     <label class="col-form-label">Son Tarih:</label>
     <input type="date" class="form-control col-sm-2" v-model="tarihler.sonTarih" required>
-    <button class="btn btn-success" @click="getir">Getir</button>
+    <button class="btn btn-success" @click="getir"><font-awesome-icon icon="arrow-down"/>Getir</button>
     <div style="margin-left :15px">
       <span class="badge badge-info">{{umumiYekun.gelirlerYekunu}}</span>
       <span class="badge badge-danger">-</span>

@@ -56,7 +56,9 @@
             class="btn btn-success"
             v-if="kayitDurumu === 'Yeni Kayıt'"
             @click="Kaydet()"
-          >Kaydı Ekle</button>
+          >
+            <font-awesome-icon icon="pen"/>Kaydı Ekle
+          </button>
           <button
             id="btnKaydiDuzenle"
             name="btnKaydiDuzenle"
@@ -64,27 +66,58 @@
             class="btn btn-success"
             v-if="kayitDurumu === 'Düzenleme'"
             @click="Kaydet()"
-          >Kaydı Güncelle</button>
+          >
+            <font-awesome-icon icon="pen-alt"/>Kaydı Güncelle
+          </button>
           <button
             tabindex="7"
             class="btn btn-danger"
             @click="DuzeltmeyiIptalEt()"
             type="button"
             v-if="kayitDurumu === 'Düzenleme'"
-          >İptal</button>
+          >
+            <font-awesome-icon icon="times"/>İptal
+          </button>
         </div>
       </div>
     </div>
+    <b-alert
+      :show="sayac"
+      dismissible
+      variant="warning"
+      @dismissed="sayac=0"
+      @dismiss-count-down="sayacAzalt"
+    >
+      <p>{{mesaj}}({{sayac}})</p>
+      <b-progress variant="warning" :max="sure" :value="sayac" height="4px"></b-progress>
+    </b-alert>
   </div>
 </template>
+
 <script>
+import { Ensar } from "../assets/js/Ensar.js";
 export default {
   name: "Kayd",
   props: {
     nevler: null,
     kayit: null
   },
+  data() {
+    return {
+      sayac: 0,
+      sure: 3,
+      mesaj: ""
+    };
+  },
   methods: {
+    sayacAzalt(psayac) {
+      this.sayac = psayac;
+    },
+    mesajGoster(pMesaj, pSure = 3) {
+      this.mesaj = pMesaj;
+      this.sure = pSure;
+      this.sayac = this.sure;
+    },
     izahEnterAsTab: function() {
       if (this.kayitDurumu === "Düzenleme") {
         document.getElementById("btnKaydiDuzenle").focus();
@@ -99,13 +132,20 @@ export default {
       this.$emit("KayitDegisti", {});
     },
     Kaydet: function() {
-      this.setFocus("tbTarih");
-      this.$emit("KayitDegisti", this.kayit);
-      this.$emit("Kaydet", this.kayitDurumu);
+      if (
+        Ensar.tarihMi(this.kayit.Tarih) &&
+        this.kayit.RbtNevler &&
+        this.kayit.Mikdar &&
+        this.kayit.Mikdar > 0
+      ) {
+        this.setFocus("tbTarih");
+        this.$emit("KayitDegisti", this.kayit);
+        this.$emit("Kaydet", this.kayitDurumu);
+        //console.log(this.kayit);
+      } else {
+        this.mesajGoster("Veriler eksik girilmiş...");
+      }
     }
-  },
-  data() {
-    return {};
   },
   computed: {
     kaydiGetir: function() {
@@ -119,5 +159,5 @@ export default {
   }
 };
 </script>
-<style scope>
+<style>
 </style>

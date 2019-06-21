@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- <tecrube></tecrube> -->
     <div class="row" style="margin-top:10px;">
       <app-login
         :girisYapmis="girisYapmis"
@@ -21,23 +22,9 @@
         :umumiYekun="umumiYekun"
         :tarihler="tarihler"
       ></appTarihAraligi>
-      <div id="tabs" style="margin-top:10px;">
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#sarfiyat">Harcamalar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#akarat">Gelirler</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#varidat">Varlıklar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#odemeplani">Ödeme Planı</a>
-          </li>
-        </ul>
-        <div class="tab-content border border-top-0" style="margin-top:0px;">
-          <div class="tab-pane container active" id="sarfiyat">
+      <b-card no-body>
+        <b-tabs content-class="mt-3" pills card>
+          <b-tab title="Harcamalar" active>
             <appKayitGrid
               :name="'harcamalar'"
               :kayitlar="sarfiyat"
@@ -47,8 +34,8 @@
               @KayitGridKayitDegisti="HarcamaKaydiDegisti"
               @Kaydet="HarcamayiKaydet"
             ></appKayitGrid>
-          </div>
-          <div class="tab-pane container fade" id="akarat">
+          </b-tab>
+          <b-tab title="Gelirler">
             <appKayitGrid
               :name="'gelirler'"
               :kayitlar="gelirler"
@@ -58,8 +45,8 @@
               @KayitGridKayitDegisti="GelirKaydiDegisti"
               @Kaydet="GeliriKaydet"
             ></appKayitGrid>
-          </div>
-          <div class="tab-pane container fade" id="varidat">
+          </b-tab>
+          <b-tab title="Varlıklar">
             <appKayitGrid
               :name="'mevcudat'"
               :kayitlar="mevcudat"
@@ -69,10 +56,10 @@
               @KayitGridKayitDegisti="MevcutKaydiDegisti"
               @Kaydet="MevcuduKaydet"
             ></appKayitGrid>
-          </div>
-          <div class="tab-pane container fade" id="odemeplani">...</div>
-        </div>
-      </div>
+          </b-tab>
+          <b-tab title="Ödeme Planı"></b-tab>
+        </b-tabs>
+      </b-card>
     </div>
   </div>
 </template>
@@ -84,6 +71,7 @@ import KayitGrid from "./components/KayitGrid";
 import TarihAraligi from "./components/TarihAraligi";
 import Login from "./components/login/Login";
 import UserPanel from "./components/login/UserPanel";
+import Tecrube from "./components/Tecrube";
 
 import Vue from "vue";
 import axios from "axios";
@@ -110,11 +98,13 @@ export default {
     appKayitGrid: KayitGrid,
     appTarihAraligi: TarihAraligi,
     appLogin: Login,
-    appUserPanel: UserPanel
+    appUserPanel: UserPanel,
+    tecrube: Tecrube
   },
   data: function() {
     return {
       loginMesaj: "",
+      mesaj: "",
       token: localStorage.getItem("token"),
       girisBilgileri: { email: "ali.koca@gmail.com", sifre: "Arjun@123" },
       kullaniciIsmi: null,
@@ -202,9 +192,14 @@ export default {
       });
     },
     KayitlarDegisti: function() {
-       this.UmumiYekunGetir();
+      this.UmumiYekunGetir();
     },
     HarcamayiKaydet: function(pKayitDurumu) {
+      //console.log(this.sarf);
+      if (!this.sarf) {
+        this.Mesaj = "Bilgiler Eksik!";
+        exit;
+      }
       if (pKayitDurumu === "Yeni Kayıt") {
         const baseURI = eventBus.restApi + "/harcama";
         this.$http.post(baseURI, this.sarf).then(result => {

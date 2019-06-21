@@ -2,7 +2,9 @@
   <div v-if="girisYapmis" class="header">
     <div class="contanier">
       <span class="badge badge-info">Kullanıcı İsmi: {{kullaniciIsmi}}</span>
-      <button @click="KullaniciyiCikart" class="btn btn-danger btn-sm">Çıkış Yap</button>
+      <button @click="KullaniciyiCikart" class="btn btn-danger btn-sm">
+        <font-awesome-icon icon="sign-out-alt"/>Çıkış Yap
+      </button>
     </div>
   </div>
 </template>

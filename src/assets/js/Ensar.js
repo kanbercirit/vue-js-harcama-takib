@@ -1,4 +1,3 @@
-export class Ensar2 {}
 export class Ensar {
   constructor() {
     return this;
@@ -53,6 +52,17 @@ export class Ensar {
     var day = ("0" + tarih.getDate()).slice(-2);
     var month = ("0" + (tarih.getMonth() + 1)).slice(-2);
     return tarih.getFullYear() + "-" + month + "-" + day;
+  }
+
+  static tarihMi(pTarih) {
+    let netice = false;
+    try {
+      pTarih = new Date(pTarih);
+      netice = pTarih instanceof Date && !isNaN(pTarih.valueOf());
+    } catch (error) {
+      netice = false;
+    }
+    return netice;
   }
 
   static donemGetir(ilkTarih) {

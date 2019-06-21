@@ -1,4 +1,4 @@
-# Harcama Takib vue.js, PHP, Slim (Monitoring of Expenditures)
+# Harcama Takib (Monitoring of Expenditures). PHP(Slim, tuupola/slim-jwt-auth[token]), vue.js, bootstrap-vue, fortawesome
 
 ## Veritabanı İşlemleri (Database Operations)
 
@@ -19,7 +19,7 @@ Veritabanı bilgileri ise şu dosyada tutuluyor:
 npm install
 ```
 
-### Projenin Derlenmesi ve Çalıştırılması (Compiles and hot-reloads for development)
+### Projenin Derlenmesi ve Çalıştırılması (Compiles and hot-reloads for development) (Varsayılan olarak localhost:8082'den yayın yapacak şekilde ayarlanmıştır.)
 
 ```
 npm run serve
@@ -28,7 +28,7 @@ npm run serve
 ### Rest API Projesinin Çalıştırılması
 
 ```
-/ss/slim dizinine gidip, aşağıdaki komutu çalıştırınız:
+/ss/slim dizinine gidip, aşağıdaki komutu çalıştırınız: (Varsayılan olarak localhost:8081'den yayın yapacak şekilde ayarlanmıştır.)
 
 sh a-php-server.sh
 ```
