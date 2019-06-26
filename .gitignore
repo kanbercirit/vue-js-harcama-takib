@@ -2,6 +2,9 @@
 node_modules
 /dist
 /evrak/kaynak
+/ss/src/settings-4e.php
+/ss-ilk.tar.gz
+/ss-*.*
 
 # local env files
 .env.local

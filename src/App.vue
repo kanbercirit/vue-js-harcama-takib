@@ -71,7 +71,6 @@ import KayitGrid from "./components/KayitGrid";
 import TarihAraligi from "./components/TarihAraligi";
 import Login from "./components/login/Login";
 import UserPanel from "./components/login/UserPanel";
-import Tecrube from "./components/Tecrube";
 
 import Vue from "vue";
 import axios from "axios";
@@ -98,15 +97,14 @@ export default {
     appKayitGrid: KayitGrid,
     appTarihAraligi: TarihAraligi,
     appLogin: Login,
-    appUserPanel: UserPanel,
-    tecrube: Tecrube
+    appUserPanel: UserPanel
   },
   data: function() {
     return {
       loginMesaj: "",
       mesaj: "",
       token: localStorage.getItem("token"),
-      girisBilgileri: { email: "ali.koca@gmail.com", sifre: "Arjun@123" },
+      girisBilgileri: { email: "ali.koca@gmail.com", sifre: "rjun@123" },
       kullaniciIsmi: null,
       tarihler: { ilkTarih: new Date(), sonTarih: new Date() },
       sarfNevleri: Array,
@@ -198,7 +196,7 @@ export default {
       //console.log(this.sarf);
       if (!this.sarf) {
         this.Mesaj = "Bilgiler Eksik!";
-        exit;
+        return;
       }
       if (pKayitDurumu === "Yeni Kayıt") {
         const baseURI = eventBus.restApi + "/harcama";

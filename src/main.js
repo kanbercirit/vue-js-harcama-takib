@@ -2,7 +2,7 @@ import "@babel/polyfill";
 import "mutationobserver-shim";
 import Vue from "vue";
 import App from "./App.vue";
-import { Ensar } from "./assets/js/Ensar.js";
+//import { Ensar } from "./assets/js/Ensar.js";
 import BootstrapVue from "bootstrap-vue";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -30,8 +30,8 @@ export const eventBus = new Vue({
   name: "Sarfiyat",
   data() {
     return {
-      restApi: "http://localhost:8081/api",
-      restApiKok: "http://localhost:8081"
+      restApi: "https://h.4ebilisim.com/ss/slim/api",
+      restApiKok: "https://h.4ebilisim.com/ss/slim"
     };
   }
 });
